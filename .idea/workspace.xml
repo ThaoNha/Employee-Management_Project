@@ -36,6 +36,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -62,6 +66,14 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
+    <state x="847" y="356" key="#Notifications" timestamp="1651136627163">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="847" y="356" key="#Notifications/0.0.1920.1040/-1280.57.1280.984@0.0.1920.1040" timestamp="1651136627163" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1651137264470">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/-1280.57.1280.984@0.0.1920.1040" timestamp="1651137264470" />
     <state x="767" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1651135845650">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
