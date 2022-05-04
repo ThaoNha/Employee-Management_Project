@@ -39,20 +39,18 @@ public class WorkingImpl implements WorkingService {
     }
 
     @Override
-    public WorkingDTO addWorking(WorkingDTO workingDTO, Integer id) {
-        EmployeeEntity employeeEntity = employeeRepository.findById(id).get();
-        WorkingEntity entity = workingMapper.toEntity(workingDTO,employeeEntity);
+    public WorkingDTO addWorking(WorkingDTO workingDTO) {
+        EmployeeEntity employeeEntity = employeeRepository.findById(workingDTO.getEmployee_id()).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
+        WorkingEntity entity = workingMapper.toEntity(workingDTO, employeeEntity);
         return workingMapper.toDTO(workingRepository.save(entity));
     }
 
     @Override
     public void deleteWorking(Integer id) {
-        Optional<WorkingEntity> optionalWorking = workingRepository.findById(id);
-        if (optionalWorking.isPresent()) {
-            WorkingEntity entity = optionalWorking.get();
-            workingDeletedRepository.save(transferWorking.entityToDeleted(entity));
-            workingRepository.delete(entity);
-        }
+        WorkingEntity entity = workingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Working is not found!"));
+        workingDeletedRepository.save(transferWorking.entityToDeleted(entity));
+        workingRepository.delete(entity);
+
     }
 
 
