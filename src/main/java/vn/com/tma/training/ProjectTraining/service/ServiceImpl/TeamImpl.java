@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+
 public class TeamImpl implements TeamService {
     @Autowired
     private TeamRepository teamRepository;
@@ -45,14 +46,17 @@ public class TeamImpl implements TeamService {
 
     @Override
     public TeamDTO updateTeam(Integer id, TeamDTO teamDTO) {
-        try {
-            TeamEntity entity = teamRepository.findById(id).get();
-            entity.setName(teamDTO.getName());
-            return mapper.toDTO(teamRepository.save(entity));
-        } catch (NullPointerException e) {
-            System.out.println("Null");
-            return null;
-        }
 
+        TeamEntity entity = teamRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
+        entity.setName(teamDTO.getName());
+        return mapper.toDTO(teamRepository.save(entity));
+
+
+    }
+
+    @Override
+    public void delete(Integer id) {
+        TeamEntity entity=teamRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Team is not found!"));
+        teamRepository.delete(entity);
     }
 }

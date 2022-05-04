@@ -19,7 +19,7 @@ public class EmployeeMapper {
         dto.setMoneyPerHour(entity.getMoneyPerHour());
         dto.setPhone(entity.getPhone());
         dto.setStartDay(entity.getStartDay());
-        dto.setTeam(entity.getTeam().getName());
+        dto.setTeamID(entity.getTeam().getNo());
         return dto;
     }
 
