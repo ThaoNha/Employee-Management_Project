@@ -12,4 +12,6 @@ public interface TeamService {
     TeamDTO addTeam(TeamDTO teamDTO);
 
     TeamDTO updateTeam(Integer id, TeamDTO teamDTO);
+
+    void delete(Integer id);
 }

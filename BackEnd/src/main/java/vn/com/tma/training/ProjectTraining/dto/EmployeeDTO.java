@@ -18,7 +18,7 @@ public class EmployeeDTO {
     private double moneyPerHour;
     private String phone;
     private Date startDay;
-    private String team;
+    private int teamID;
 
 
 }

@@ -56,30 +56,27 @@ public class EmployeeImpl implements EmployeeService {
         employeeRep.findAll().forEach(employee -> {
             employeeDTOSet.add(mapper.toDTO(employee));
         });
+
         return employeeDTOSet;
     }
 
     @Override
     public EmployeeDTO newEmployee(EmployeeDTO employeeDTO) {
-        TeamEntity teamEntity = teamRep.findByName(employeeDTO.getTeam());
+        TeamEntity teamEntity = teamRep.findById(employeeDTO.getTeamID()).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
         EmployeeEntity entity = employeeRep.save(mapper.toEntity(employeeDTO, teamEntity));
         return mapper.toDTO(entity);
     }
 
     @Override
     public EmployeeDTO findEmployee(Integer id) {
+        EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
+        return mapper.toDTO(entity);
 
-        Optional<EmployeeEntity> entityOptional = employeeRep.findById(id);
-        if (entityOptional.isPresent()) {
-            EmployeeEntity entity = entityOptional.get();
-            return mapper.toDTO(entity);
-        }
-        return null;
     }
 
     @Override
     public void deleteEmployee(Integer id) {
-        EmployeeEntity entity = employeeRep.findById(id).get();
+        EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
         EmployeeDeletedEntity deletedEntity = transferEmployee.entityToDeleted(entity);
         Iterable<WorkingEntity> workingEntitySet = workingRepository.findAllById(id);
         if (workingEntitySet != null) {
@@ -88,9 +85,13 @@ public class EmployeeImpl implements EmployeeService {
                 workingDeletedRepository.save(workingDeletedEntity);
                 workingRepository.delete(workingEntity);
             });
+            employeeDeletedRepository.save(deletedEntity);
+            employeeRep.delete(entity);
+
+        } else {
+            throw new IllegalArgumentException("Working set is not found!");
         }
-        employeeDeletedRepository.save(deletedEntity);
-        employeeRep.delete(entity);
+
     }
 
     @Override
@@ -102,56 +103,54 @@ public class EmployeeImpl implements EmployeeService {
                 employeeDTOSet.add(mapper.toDTO(employeeEntity));
             });
             return employeeDTOSet;
+        } else {
+            throw new IllegalArgumentException("Working set is not found!");
         }
-        return null;
+
     }
 
     @Override
     public EmployeeDTO updateEmployee(Integer id, EmployeeDTO employeeDTO) {
-        Optional<EmployeeEntity> entityOptional = employeeRep.findById(id);
-        if (entityOptional.isPresent()) {
-            EmployeeEntity entity = entityOptional.get();
-            EmployeeUpdatedEntity updatedEntity = transferEmployee.entityToUpdated(entity);
-            employeeUpdatedRepository.save(updatedEntity);
-            if (!employeeDTO.getFullName().equals("") && employeeDTO.getFullName() != null) {
-                entity.setFullName(employeeDTO.getFullName());
-            }
-            if (employeeDTO.getAge() > 0 && employeeDTO.getAge() < 70) {
-                entity.setAge(employeeDTO.getAge());
-            }
-            if (!employeeDTO.getStartDay().after(new Date())) {
-                entity.setStartDay(employeeDTO.getStartDay());
-            }
-            if (!employeeDTO.getTeam().equals(entity.getTeam().getName())) {
-                TeamEntity teamEntity = teamRep.findByName(employeeDTO.getTeam());
-                entity.setTeam(teamEntity);
-            }
-            if (!employeeDTO.getAddress().equals(entity.getAddress())) {
-                entity.setAddress(employeeDTO.getAddress());
-            }
-            if (employeeDTO.getMoneyPerHour() != entity.getMoneyPerHour() & employeeDTO.getMoneyPerHour() > 0) {
-                entity.setMoneyPerHour(employeeDTO.getMoneyPerHour());
-            }
-            entity.setSex(employeeDTO.isSex());
+        EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
 
-            return mapper.toDTO(employeeRep.save(entity));
+        EmployeeUpdatedEntity updatedEntity = transferEmployee.entityToUpdated(entity);
+
+
+        if (!employeeDTO.getFullName().equals("") && employeeDTO.getFullName() != null) {
+            entity.setFullName(employeeDTO.getFullName());
         }
-        return null;
+        if (employeeDTO.getAge() > 0 && employeeDTO.getAge() < 70) {
+            entity.setAge(employeeDTO.getAge());
+        }
+        if (!employeeDTO.getStartDay().after(new Date())) {
+            entity.setStartDay(employeeDTO.getStartDay());
+        }
+        if (employeeDTO.getTeamID() != entity.getTeam().getNo()) {
+            TeamEntity teamEntity = teamRep.findById(employeeDTO.getTeamID()).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
+            entity.setTeam(teamEntity);
+        }
+        if (!employeeDTO.getAddress().equals(entity.getAddress())) {
+            entity.setAddress(employeeDTO.getAddress());
+        }
+        if (employeeDTO.getMoneyPerHour() != entity.getMoneyPerHour() & employeeDTO.getMoneyPerHour() > 0) {
+            entity.setMoneyPerHour(employeeDTO.getMoneyPerHour());
+        }
+        entity.setSex(employeeDTO.isSex());
+
+        employeeUpdatedRepository.save(updatedEntity);
+        return mapper.toDTO(employeeRep.save(entity));
 
     }
 
     @Override
     public Set<EmployeeDTO> listEmployeeByTeam(Integer teamID) {
         Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
-        Optional<TeamEntity> team = teamRep.findById(teamID);
-        if (team.isPresent()) {
-            TeamEntity teamEntity = team.get();
-            employeeRep.findAllByTeam(teamEntity).forEach(employeeEntity -> {
-                employeeDTOSet.add(mapper.toDTO(employeeEntity));
-            });
-            return employeeDTOSet;
-        }
+        TeamEntity entity = teamRep.findById(teamID).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
 
-        return null;
+        employeeRep.findAllByTeam(entity).forEach(employeeEntity -> {
+            employeeDTOSet.add(mapper.toDTO(employeeEntity));
+        });
+        return employeeDTOSet;
+
     }
 }
