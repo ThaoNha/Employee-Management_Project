@@ -7,6 +7,7 @@ import vn.com.tma.training.ProjectTraining.common.ErrorResponse;
 import vn.com.tma.training.ProjectTraining.dto.EmployeeDTO;
 import vn.com.tma.training.ProjectTraining.service.EmployeeService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> newEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<?> newEmployee(@RequestBody @Valid EmployeeDTO employeeDTO) {
         try {
             return ResponseEntity.ok(employeeService.newEmployee(employeeDTO));
         } catch (Exception e) {
@@ -86,7 +87,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/update/{employee_id}")
-    public ResponseEntity<?> updateEmployee(@PathVariable Integer employee_id, @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<?> updateEmployee(@PathVariable Integer employee_id, @RequestBody @Valid EmployeeDTO employeeDTO) {
+
         try {
             return ResponseEntity.ok(employeeService.updateEmployee(employee_id, employeeDTO));
         } catch (Exception e) {
