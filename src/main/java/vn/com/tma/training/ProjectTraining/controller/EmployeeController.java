@@ -26,7 +26,7 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/get-all/{index}")
+    @GetMapping("/get-page/{index}")
     public ResponseEntity<?> getPage(@PathVariable Integer index) {
         try {
             return ResponseEntity.ok(employeeService.getPage(index - 1));
@@ -67,7 +67,7 @@ public class EmployeeController {
 
     }
 
-    @DeleteMapping("/delete-all")
+    @DeleteMapping("/delete-multi")
     public ResponseEntity<?> deleteAll(@RequestParam(value = "ids") List<Integer> ids) {
         String s = employeeService.deleteAll(ids);
         return ResponseEntity.ok().body(s.isEmpty() ? "Delete Employees is successful!" : s);
@@ -85,10 +85,10 @@ public class EmployeeController {
 
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateEmployee(@PathVariable Integer id, @RequestBody EmployeeDTO employeeDTO) {
+    @PutMapping("/update/{employee_id}")
+    public ResponseEntity<?> updateEmployee(@PathVariable Integer employee_id, @RequestBody EmployeeDTO employeeDTO) {
         try {
-            return ResponseEntity.ok(employeeService.updateEmployee(id, employeeDTO));
+            return ResponseEntity.ok(employeeService.updateEmployee(employee_id, employeeDTO));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
         }

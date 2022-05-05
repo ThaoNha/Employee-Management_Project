@@ -14,7 +14,7 @@ public class EmployeeMapper {
         dto.setNo(entity.getNo());
         dto.setFullName(entity.getFullName());
         dto.setAge(entity.getAge());
-        dto.setSex(entity.isSex());
+        dto.setMale(entity.isMale());
         dto.setAddress(entity.getAddress());
         dto.setMoneyPerHour(entity.getMoneyPerHour());
         dto.setPhone(entity.getPhone());
@@ -28,7 +28,7 @@ public class EmployeeMapper {
         entity.setNo(dto.getNo());
         entity.setFullName(dto.getFullName());
         entity.setAge(dto.getAge());
-        entity.setSex(dto.isSex());
+        entity.setMale(dto.isMale());
         entity.setAddress(dto.getAddress());
         entity.setMoneyPerHour(dto.getMoneyPerHour());
         entity.setPhone(dto.getPhone());
