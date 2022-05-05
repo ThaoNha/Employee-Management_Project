@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import vn.com.tma.training.ProjectTraining.common.ErrorResponse;
 import vn.com.tma.training.ProjectTraining.dto.EmployeeDTO;
 import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
 import vn.com.tma.training.ProjectTraining.entity.TeamEntity;
@@ -24,6 +25,7 @@ import vn.com.tma.training.ProjectTraining.service.EmployeeService;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -77,7 +79,7 @@ public class EmployeeImpl implements EmployeeService {
 
     @Override
     public void deleteEmployee(Integer id) {
-        EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
+        EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee_id: " + id + " is not found!"));
         EmployeeDeletedEntity deletedEntity = transferEmployee.entityToDeleted(entity);
         Iterable<WorkingEntity> workingEntitySet = workingRepository.findAllById(id);
         if (workingEntitySet != null) {
@@ -96,8 +98,17 @@ public class EmployeeImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteAll(Set<Integer> set) {
-        set.forEach(this::deleteEmployee);
+    public String deleteAll(List<Integer> ids) {
+        StringBuilder result = new StringBuilder();
+        for (Integer id : ids) {
+            try {
+                deleteEmployee(id);
+
+            } catch (Exception e) {
+                result.append(e.getMessage()).append("-");
+            }
+        }
+        return result.toString().toString();
     }
 
     @Override
