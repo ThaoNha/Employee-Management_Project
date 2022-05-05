@@ -15,10 +15,10 @@ public class WorkingController {
     @Autowired
     private WorkingService workingService;
 
-    @GetMapping("/get-all/{id}")
-    public ResponseEntity<?> listWorking(@PathVariable Integer id) {
+    @GetMapping("/get-all/{employee_id}")
+    public ResponseEntity<?> listWorking(@PathVariable Integer employee_id) {
         try {
-            return ResponseEntity.ok(workingService.listWorking(id));
+            return ResponseEntity.ok(workingService.listWorking(employee_id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
 
@@ -37,10 +37,10 @@ public class WorkingController {
 
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteWorking(@PathVariable Integer id) {
+    @DeleteMapping("/delete/{working_id}")
+    public ResponseEntity<?> deleteWorking(@PathVariable Integer working_id) {
         try {
-            workingService.deleteWorking(id);
+            workingService.deleteWorking(working_id);
             return ResponseEntity.ok().body("Delete Working is successful!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());

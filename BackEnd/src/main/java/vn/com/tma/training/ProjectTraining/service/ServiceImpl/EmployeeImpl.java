@@ -72,7 +72,7 @@ public class EmployeeImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO findEmployee(Integer id) {
-        EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
+        EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee_id: " + id + " is not found!"));
         return mapper.toDTO(entity);
 
     }
@@ -92,7 +92,7 @@ public class EmployeeImpl implements EmployeeService {
             employeeRep.delete(entity);
 
         } else {
-            throw new IllegalArgumentException("Working set is not found!");
+            throw new IllegalArgumentException("Delete is not complete!");
         }
 
     }
@@ -115,20 +115,16 @@ public class EmployeeImpl implements EmployeeService {
     public Set<EmployeeDTO> findByName(String name) {
         Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
         Set<EmployeeEntity> employeeEntitySet = employeeRep.findByName(name);
-        if (employeeEntitySet != null) {
+        System.out.println(employeeDTOSet);
             employeeEntitySet.forEach(employeeEntity -> {
                 employeeDTOSet.add(mapper.toDTO(employeeEntity));
             });
             return employeeDTOSet;
-        } else {
-            throw new IllegalArgumentException("Working set is not found!");
-        }
-
     }
 
     @Override
     public EmployeeDTO updateEmployee(Integer id, EmployeeDTO employeeDTO) {
-        EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
+        EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee_id: " + id + " is not found!"));
 
         EmployeeUpdatedEntity updatedEntity = transferEmployee.entityToUpdated(entity);
 
@@ -152,7 +148,7 @@ public class EmployeeImpl implements EmployeeService {
         if (employeeDTO.getMoneyPerHour() != entity.getMoneyPerHour() & employeeDTO.getMoneyPerHour() > 0) {
             entity.setMoneyPerHour(employeeDTO.getMoneyPerHour());
         }
-        entity.setSex(employeeDTO.isSex());
+        entity.setMale(employeeDTO.isMale());
 
         employeeUpdatedRepository.save(updatedEntity);
         return mapper.toDTO(employeeRep.save(entity));
@@ -162,7 +158,9 @@ public class EmployeeImpl implements EmployeeService {
     @Override
     public Set<EmployeeDTO> listEmployeeByTeam(Integer teamID) {
         Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
-        TeamEntity entity = teamRep.findById(teamID).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
+        TeamEntity entity = teamRep.findById(teamID).orElseThrow(() -> new IllegalArgumentException("Team_id: " + teamID + " is not found!"));
+
+
 
         employeeRep.findAllByTeam(entity).forEach(employeeEntity -> {
             employeeDTOSet.add(mapper.toDTO(employeeEntity));
