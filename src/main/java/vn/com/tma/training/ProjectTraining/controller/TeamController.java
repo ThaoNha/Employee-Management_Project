@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/v1/team")
+@RequestMapping("/api/team")
 public class TeamController {
     @Autowired
     private TeamService teamService;

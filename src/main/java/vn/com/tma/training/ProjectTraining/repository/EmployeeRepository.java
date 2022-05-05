@@ -1,5 +1,8 @@
 package vn.com.tma.training.ProjectTraining.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +18,7 @@ public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integ
     Set<EmployeeEntity> findByName(@Param("name") String name);
 
     Set<EmployeeEntity> findAllByTeam(TeamEntity team);
+
+    @Query(value = "select * from Employee e",nativeQuery = true)
+    Page<EmployeeEntity> findAllWithPageIndex(Pageable pageable);
 }
