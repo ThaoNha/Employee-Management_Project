@@ -14,7 +14,7 @@ public class TransferEmployee {
         deletedEntity.setNo(entity.getNo());
         deletedEntity.setFullName(entity.getFullName());
         deletedEntity.setAge(entity.getAge());
-        deletedEntity.setSex(entity.isSex());
+        deletedEntity.setMale(entity.isMale());
         deletedEntity.setAddress(entity.getAddress());
         deletedEntity.setMoneyPerHour(entity.getMoneyPerHour());
         deletedEntity.setPhone(entity.getPhone());
@@ -28,7 +28,7 @@ public class TransferEmployee {
         updatedEntity.setNo(entity.getNo());
         updatedEntity.setFullName(entity.getFullName());
         updatedEntity.setAge(entity.getAge());
-        updatedEntity.setSex(entity.isSex());
+        updatedEntity.setMale(entity.isMale());
         updatedEntity.setAddress(entity.getAddress());
         updatedEntity.setMoneyPerHour(entity.getMoneyPerHour());
         updatedEntity.setPhone(entity.getPhone());
