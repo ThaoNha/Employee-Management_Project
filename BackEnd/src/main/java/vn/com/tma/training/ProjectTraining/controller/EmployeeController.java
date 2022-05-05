@@ -7,6 +7,7 @@ import vn.com.tma.training.ProjectTraining.common.ErrorResponse;
 import vn.com.tma.training.ProjectTraining.dto.EmployeeDTO;
 import vn.com.tma.training.ProjectTraining.service.EmployeeService;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -24,16 +25,18 @@ public class EmployeeController {
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
         }
     }
+
     @GetMapping("/get-all/{index}")
-    public ResponseEntity<?> getPage(@PathVariable Integer index){
-        try{
-            return ResponseEntity.ok(employeeService.getPage(index-1));
-        }catch (Exception e){
+    public ResponseEntity<?> getPage(@PathVariable Integer index) {
+        try {
+            return ResponseEntity.ok(employeeService.getPage(index - 1));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
 
         }
 
     }
+
     @PostMapping("/create")
     public ResponseEntity<?> newEmployee(@RequestBody EmployeeDTO employeeDTO) {
         try {
@@ -65,14 +68,10 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/delete-all")
-    public ResponseEntity<?> deleteAll(@RequestBody Set<Integer> set){
-        try{
-            employeeService.deleteAll(set);
-            return ResponseEntity.ok().body("Delete Employees is successful!");
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
+    public ResponseEntity<?> deleteAll(@RequestParam(value = "ids") List<Integer> ids) {
+        String s = employeeService.deleteAll(ids);
+        return ResponseEntity.ok().body(s.isEmpty() ? "Delete Employees is successful!" : s);
 
-        }
     }
 
     @GetMapping("/find-by-name")
@@ -89,17 +88,17 @@ public class EmployeeController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable Integer id, @RequestBody EmployeeDTO employeeDTO) {
         try {
-            return  ResponseEntity.ok(employeeService.updateEmployee(id, employeeDTO));
-        }catch (Exception e ){
+            return ResponseEntity.ok(employeeService.updateEmployee(id, employeeDTO));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
         }
     }
 
     @GetMapping("/find-by-team/{teamID}")
     public ResponseEntity<?> listEmployeeByTeam(@PathVariable Integer teamID) {
-        try{
+        try {
             return ResponseEntity.ok(employeeService.listEmployeeByTeam(teamID));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
 
         }
