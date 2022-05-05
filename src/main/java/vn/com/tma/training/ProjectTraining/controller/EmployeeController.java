@@ -25,9 +25,9 @@ public class EmployeeController {
         }
     }
     @GetMapping("/get-all/{index}")
-    public ResponseEntity<?> getPage(@PathVariable Integer pageIndex){
+    public ResponseEntity<?> getPage(@PathVariable Integer index){
         try{
-            return ResponseEntity.ok(employeeService.getPage(pageIndex-1));
+            return ResponseEntity.ok(employeeService.getPage(index-1));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
 

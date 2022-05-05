@@ -162,7 +162,7 @@ public class EmployeeImpl implements EmployeeService {
 
     @Override
     public Page<EmployeeDTO> getPage(Integer pageIndex) {
-        Page<EmployeeEntity> page = employeeRep.findAll(PageRequest.of(pageIndex, 5));
+        Page<EmployeeEntity> page = employeeRep.findAllWithPageIndex(PageRequest.of(pageIndex, 5));
         return page.map(entity -> mapper.toDTO(entity));
     }
 
