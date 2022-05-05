@@ -13,7 +13,7 @@ public class EmployeeDTO {
     private int no;
     private String fullName;
     private int age;
-    private boolean sex;
+    private boolean isMale;
     private String address;
     private double moneyPerHour;
     private String phone;

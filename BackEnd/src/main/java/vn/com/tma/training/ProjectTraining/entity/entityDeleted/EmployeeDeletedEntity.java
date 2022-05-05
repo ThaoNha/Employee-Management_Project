@@ -18,8 +18,8 @@ public class EmployeeDeletedEntity {
     private String fullName;
     @Column(name = "age")
     private int age;
-    @Column(name = "sex")
-    private boolean sex;
+    @Column(name = "isMale")
+    private boolean isMale;;
     @Column(name = "address")
     private String address;
     @Column(name = "money_per_hour")
