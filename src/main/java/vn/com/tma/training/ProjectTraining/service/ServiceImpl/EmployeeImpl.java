@@ -1,6 +1,8 @@
 package vn.com.tma.training.ProjectTraining.service.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.EmployeeDTO;
 import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
@@ -22,7 +24,6 @@ import vn.com.tma.training.ProjectTraining.service.EmployeeService;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -95,6 +96,11 @@ public class EmployeeImpl implements EmployeeService {
     }
 
     @Override
+    public void deleteAll(Set<Integer> set) {
+        set.forEach(this::deleteEmployee);
+    }
+
+    @Override
     public Set<EmployeeDTO> findByName(String name) {
         Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
         Set<EmployeeEntity> employeeEntitySet = employeeRep.findByName(name);
@@ -153,4 +159,11 @@ public class EmployeeImpl implements EmployeeService {
         return employeeDTOSet;
 
     }
+
+    @Override
+    public Page<EmployeeDTO> getPage(Integer pageIndex) {
+        Page<EmployeeEntity> page = employeeRep.findAll(PageRequest.of(pageIndex, 5));
+        return page.map(entity -> mapper.toDTO(entity));
+    }
+
 }

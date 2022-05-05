@@ -10,7 +10,7 @@ import vn.com.tma.training.ProjectTraining.service.WorkingService;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/v1/working")
+@RequestMapping("/api/working")
 public class WorkingController {
     @Autowired
     private WorkingService workingService;
