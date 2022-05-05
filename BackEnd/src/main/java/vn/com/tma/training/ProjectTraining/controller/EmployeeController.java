@@ -10,7 +10,7 @@ import vn.com.tma.training.ProjectTraining.service.EmployeeService;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/v1/employee")
+@RequestMapping("/api/employee")
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
@@ -24,7 +24,16 @@ public class EmployeeController {
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
         }
     }
+    @GetMapping("/get-all/{index}")
+    public ResponseEntity<?> getPage(@PathVariable Integer pageIndex){
+        try{
+            return ResponseEntity.ok(employeeService.getPage(pageIndex-1));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
 
+        }
+
+    }
     @PostMapping("/create")
     public ResponseEntity<?> newEmployee(@RequestBody EmployeeDTO employeeDTO) {
         try {
@@ -53,6 +62,17 @@ public class EmployeeController {
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
         }
 
+    }
+
+    @DeleteMapping("/delete-all")
+    public ResponseEntity<?> deleteAll(@RequestBody Set<Integer> set){
+        try{
+            employeeService.deleteAll(set);
+            return ResponseEntity.ok().body("Delete Employees is successful!");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
+
+        }
     }
 
     @GetMapping("/find-by-name")
