@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import vn.com.tma.training.ProjectTraining.common.ErrorResponse;
 import vn.com.tma.training.ProjectTraining.dto.EmployeeDTO;
 import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
 import vn.com.tma.training.ProjectTraining.entity.TeamEntity;
@@ -23,7 +22,6 @@ import vn.com.tma.training.ProjectTraining.repository.deleted.WorkingDeletedRepo
 import vn.com.tma.training.ProjectTraining.repository.updated.EmployeeUpdatedRepository;
 import vn.com.tma.training.ProjectTraining.service.EmployeeService;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
 import vn.com.tma.training.ProjectTraining.entity.TeamEntity;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integer> {
@@ -21,4 +22,6 @@ public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integ
 
     @Query(value = "select * from Employee e",nativeQuery = true)
     Page<EmployeeEntity> findAllWithPageIndex(Pageable pageable);
+
+
 }
