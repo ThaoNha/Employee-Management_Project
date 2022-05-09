@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 import vn.com.tma.training.ProjectTraining.entity.AdvanceEntity;
 
 public interface AdvanceRepository extends CrudRepository<AdvanceEntity, Integer> {
-    @Query(value = "select w.* from advance w where w.employee_id=:employee_id", nativeQuery = true)
+    @Query(value = "select a.* from advance a where a.employee_id=:employee_id", nativeQuery = true)
     Iterable<AdvanceEntity> findAllById(@Param("employee_id") Integer employee_id);
 
 }
