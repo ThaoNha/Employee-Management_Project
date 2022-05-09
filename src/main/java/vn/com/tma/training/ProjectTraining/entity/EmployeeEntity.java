@@ -41,4 +41,6 @@ public class EmployeeEntity {
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private Set<WorkingEntity> workingSet;
 
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
+    private Set<AdvanceEntity> advanceSet;
 }

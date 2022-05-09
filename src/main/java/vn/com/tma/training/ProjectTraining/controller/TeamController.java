@@ -9,6 +9,7 @@ import vn.com.tma.training.ProjectTraining.service.TeamService;
 
 @RestController
 @RequestMapping("/api/team")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TeamController {
     @Autowired
     private TeamService teamService;

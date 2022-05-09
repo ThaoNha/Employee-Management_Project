@@ -11,6 +11,7 @@ import vn.com.tma.training.ProjectTraining.service.ImageService;
 
 @RestController
 @RequestMapping("/api/image")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ImageController {
     @Autowired
     private ImageService imageService;

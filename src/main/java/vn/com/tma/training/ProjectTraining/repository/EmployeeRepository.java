@@ -23,5 +23,5 @@ public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integ
     @Query(value = "select * from Employee e",nativeQuery = true)
     Page<EmployeeEntity> findAllWithPageIndex(Pageable pageable);
 
-    byte[] findImageByNo(Integer employee_id);
+
 }
