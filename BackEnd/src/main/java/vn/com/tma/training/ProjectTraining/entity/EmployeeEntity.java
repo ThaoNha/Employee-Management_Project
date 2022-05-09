@@ -31,11 +31,14 @@ public class EmployeeEntity {
     @Column(name = "start_day")
     private Date startDay;
 
+    @Lob
+    private byte[] image;
+
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false)
     private TeamEntity team;
 
-    @OneToMany(mappedBy = "employee",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private Set<WorkingEntity> workingSet;
 
 }
