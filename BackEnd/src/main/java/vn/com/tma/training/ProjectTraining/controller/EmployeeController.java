@@ -3,13 +3,12 @@ package vn.com.tma.training.ProjectTraining.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.com.tma.training.ProjectTraining.common.ErrorResponse;
+import vn.com.tma.training.ProjectTraining.common.MessageResponse;
 import vn.com.tma.training.ProjectTraining.dto.EmployeeDTO;
 import vn.com.tma.training.ProjectTraining.service.EmployeeService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -24,7 +23,7 @@ public class EmployeeController {
         try {
             return ResponseEntity.ok(employeeService.listEmployee());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
     }
 
@@ -33,7 +32,7 @@ public class EmployeeController {
         try {
             return ResponseEntity.ok(employeeService.getPage(index - 1));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
 
         }
 
@@ -44,7 +43,7 @@ public class EmployeeController {
         try {
             return ResponseEntity.ok(employeeService.newEmployee(employeeDTO));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
     }
 
@@ -53,7 +52,7 @@ public class EmployeeController {
         try {
             return ResponseEntity.ok(employeeService.findEmployee(id));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
 
     }
@@ -64,7 +63,7 @@ public class EmployeeController {
             employeeService.deleteEmployee(id);
             return ResponseEntity.ok().body("Delete Employee is successful!");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
 
     }
@@ -81,7 +80,7 @@ public class EmployeeController {
         try {
             return ResponseEntity.ok(employeeService.findByName(name));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
 
         }
 
@@ -93,7 +92,7 @@ public class EmployeeController {
         try {
             return ResponseEntity.ok(employeeService.updateEmployee(employee_id, employeeDTO));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
     }
 
@@ -102,7 +101,7 @@ public class EmployeeController {
         try {
             return ResponseEntity.ok(employeeService.listEmployeeByTeam(teamID));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
 
         }
     }

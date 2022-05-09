@@ -7,15 +7,15 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "working")
+@Table(name = "advance")
 @Data
 @NoArgsConstructor
-public class WorkingEntity {
+public class AdvanceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Date date;
-    private int hour;
+    private int money;
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private EmployeeEntity employee;
