@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "working_deleted")
+@Table(name = "advance_deleted")
 @Data
 @NoArgsConstructor
 public class AdvanceDeletedEntity {
