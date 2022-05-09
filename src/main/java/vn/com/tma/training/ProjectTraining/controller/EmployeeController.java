@@ -13,6 +13,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/employee")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;

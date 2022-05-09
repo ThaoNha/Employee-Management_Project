@@ -13,6 +13,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/team")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TeamController {
     @Autowired
     private TeamService teamService;

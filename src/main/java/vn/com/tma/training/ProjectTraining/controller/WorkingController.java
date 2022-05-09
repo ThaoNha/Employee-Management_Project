@@ -11,6 +11,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/working")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class WorkingController {
     @Autowired
     private WorkingService workingService;
