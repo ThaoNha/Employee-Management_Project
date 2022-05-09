@@ -1,7 +1,6 @@
 package vn.com.tma.training.ProjectTraining.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +23,7 @@ public class ImageController {
             message = "Uploaded the Image successfully: " + img.getOriginalFilename();
             return ResponseEntity.ok().body(message);
         } catch (Exception e) {
-            message = "Could not upload image: " + img.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -34,7 +32,7 @@ public class ImageController {
         try {
             return ResponseEntity.ok().body(imageService.getImg(employee_id));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(MessageResponse.builder().message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
     }
 }
