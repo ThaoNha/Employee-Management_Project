@@ -17,7 +17,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-
     @GetMapping("/get-all")
     public ResponseEntity<?> getAll() {
         try {
