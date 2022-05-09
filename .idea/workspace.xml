@@ -19,7 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bbd5a51c-0119-4d00-90c4-b230c08b3947" name="Default Changelist" comment="" />
+    <list default="true" id="bbd5a51c-0119-4d00-90c4-b230c08b3947" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/vn/com/tma/training/ProjectTraining/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/vn/com/tma/training/ProjectTraining/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/vn/com/tma/training/ProjectTraining/controller/IndexController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/vn/com/tma/training/ProjectTraining/controller/IndexController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/vn/com/tma/training/ProjectTraining/controller/TeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/vn/com/tma/training/ProjectTraining/controller/TeamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/vn/com/tma/training/ProjectTraining/controller/WorkingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/vn/com/tma/training/ProjectTraining/controller/WorkingController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,6 +37,8 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
@@ -64,6 +71,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="847" y="356" key="#Notifications" timestamp="1651136627163">
