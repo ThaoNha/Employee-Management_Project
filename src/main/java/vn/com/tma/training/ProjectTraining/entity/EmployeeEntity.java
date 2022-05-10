@@ -1,7 +1,9 @@
 package vn.com.tma.training.ProjectTraining.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,6 +31,7 @@ public class EmployeeEntity {
     @Column(name = "phone")
     private String phone;
     @Column(name = "start_day")
+    @Temporal(TemporalType.DATE)
     private Date startDay;
 
     @Lob

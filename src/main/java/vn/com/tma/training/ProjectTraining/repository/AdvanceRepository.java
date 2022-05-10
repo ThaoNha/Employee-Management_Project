@@ -5,8 +5,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import vn.com.tma.training.ProjectTraining.entity.AdvanceEntity;
 
-public interface AdvanceRepository extends CrudRepository<AdvanceEntity, Integer> {
-    @Query(value = "select a.* from advance a where a.employee_id=:employee_id", nativeQuery = true)
-    Iterable<AdvanceEntity> findAllById(@Param("employee_id") Integer employee_id);
+import java.util.List;
 
+public interface AdvanceRepository extends CrudRepository<AdvanceEntity, Integer> {
+    Iterable<AdvanceEntity> findAllByEmployeeNo(Integer employee_id);
+
+    @Query(value = "select a.* from advance a where employee_id=:id and month(a.date)=:month", nativeQuery = true)
+    List<AdvanceEntity> findAllByEmployeeNoAndMonth(@Param("id") Integer id, @Param("month") int month);
 }

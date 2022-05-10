@@ -4,8 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import vn.com.tma.training.ProjectTraining.dto.AdvanceDTO;
-import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
 import vn.com.tma.training.ProjectTraining.entity.AdvanceEntity;
+import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
 
 @Component
 public class AdvanceMapper {
