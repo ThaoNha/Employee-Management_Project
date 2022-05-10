@@ -37,13 +37,15 @@ public class EmployeeController {
 
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> newEmployee(@RequestBody @Valid EmployeeDTO employeeDTO) {
+    @GetMapping("/find-by-name")
+    public ResponseEntity<?> findByName(@RequestParam String name) {
         try {
-            return ResponseEntity.ok(employeeService.newEmployee(employeeDTO));
+            return ResponseEntity.ok(employeeService.findByName(name));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+
         }
+
     }
 
     @GetMapping("/find-by-id/{id}")
@@ -54,6 +56,35 @@ public class EmployeeController {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
 
+    }
+
+    @GetMapping("/find-by-team/{teamID}")
+    public ResponseEntity<?> listEmployeeByTeam(@PathVariable Integer teamID) {
+        try {
+            return ResponseEntity.ok(employeeService.listEmployeeByTeam(teamID));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+
+        }
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> newEmployee(@RequestBody @Valid EmployeeDTO employeeDTO) {
+        try {
+            return ResponseEntity.ok(employeeService.newEmployee(employeeDTO));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+        }
+    }
+
+    @PutMapping("/update/{employee_id}")
+    public ResponseEntity<?> updateEmployee(@PathVariable Integer employee_id, @RequestBody @Valid EmployeeDTO employeeDTO) {
+
+        try {
+            return ResponseEntity.ok(employeeService.updateEmployee(employee_id, employeeDTO));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+        }
     }
 
     @DeleteMapping("/delete/{id}")
@@ -74,35 +105,5 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/find-by-name")
-    public ResponseEntity<?> findByName(@RequestParam String name) {
-        try {
-            return ResponseEntity.ok(employeeService.findByName(name));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
-
-        }
-
-    }
-
-    @PutMapping("/update/{employee_id}")
-    public ResponseEntity<?> updateEmployee(@PathVariable Integer employee_id, @RequestBody @Valid EmployeeDTO employeeDTO) {
-
-        try {
-            return ResponseEntity.ok(employeeService.updateEmployee(employee_id, employeeDTO));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
-        }
-    }
-
-    @GetMapping("/find-by-team/{teamID}")
-    public ResponseEntity<?> listEmployeeByTeam(@PathVariable Integer teamID) {
-        try {
-            return ResponseEntity.ok(employeeService.listEmployeeByTeam(teamID));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
-
-        }
-    }
 
 }
