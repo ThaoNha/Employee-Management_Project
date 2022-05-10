@@ -12,8 +12,9 @@ public class WorkingMapper {
     @Autowired
     private ModelMapper mapper;
 
+
     public WorkingDTO toDTO(WorkingEntity entity) {
-        WorkingDTO workingDTO=new WorkingDTO();
+        WorkingDTO workingDTO = new WorkingDTO();
         workingDTO.setId(entity.getId());
         workingDTO.setDate(entity.getDate());
         workingDTO.setHour(entity.getHour());
@@ -22,7 +23,7 @@ public class WorkingMapper {
     }
 
     public WorkingEntity toEntity(WorkingDTO dto, EmployeeEntity employeeEntity) {
-        WorkingEntity workingEntity=new WorkingEntity();
+        WorkingEntity workingEntity = new WorkingEntity();
         workingEntity.setId(dto.getId());
         workingEntity.setDate(dto.getDate());
         workingEntity.setHour(dto.getHour());

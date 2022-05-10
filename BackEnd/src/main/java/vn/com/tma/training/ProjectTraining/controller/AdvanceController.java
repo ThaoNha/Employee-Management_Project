@@ -7,6 +7,8 @@ import vn.com.tma.training.ProjectTraining.common.MessageResponse;
 import vn.com.tma.training.ProjectTraining.dto.AdvanceDTO;
 import vn.com.tma.training.ProjectTraining.service.AdvanceService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/advance")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -25,7 +27,7 @@ public class AdvanceController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> addAdvance(@RequestBody AdvanceDTO advanceDTO) {
+    public ResponseEntity<?> addAdvance(@RequestBody @Valid AdvanceDTO advanceDTO) {
         try {
 
             return ResponseEntity.ok(advanceService.addAdvance(advanceDTO));

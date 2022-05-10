@@ -5,18 +5,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.EmployeeDTO;
+import vn.com.tma.training.ProjectTraining.entity.AdvanceEntity;
 import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
 import vn.com.tma.training.ProjectTraining.entity.TeamEntity;
 import vn.com.tma.training.ProjectTraining.entity.WorkingEntity;
+import vn.com.tma.training.ProjectTraining.entity.entityDeleted.AdvanceDeletedEntity;
 import vn.com.tma.training.ProjectTraining.entity.entityDeleted.EmployeeDeletedEntity;
 import vn.com.tma.training.ProjectTraining.entity.entityDeleted.WorkingDeletedEntity;
 import vn.com.tma.training.ProjectTraining.entity.entityUpdated.EmployeeUpdatedEntity;
 import vn.com.tma.training.ProjectTraining.mapper.EmployeeMapper;
+import vn.com.tma.training.ProjectTraining.mapper.TransferAdvance;
 import vn.com.tma.training.ProjectTraining.mapper.TransferEmployee;
 import vn.com.tma.training.ProjectTraining.mapper.TransferWorking;
+import vn.com.tma.training.ProjectTraining.repository.AdvanceRepository;
 import vn.com.tma.training.ProjectTraining.repository.EmployeeRepository;
 import vn.com.tma.training.ProjectTraining.repository.TeamRepository;
 import vn.com.tma.training.ProjectTraining.repository.WorkingRepository;
+import vn.com.tma.training.ProjectTraining.repository.deleted.AdvanceDeletedRepository;
 import vn.com.tma.training.ProjectTraining.repository.deleted.EmployeeDeletedRepository;
 import vn.com.tma.training.ProjectTraining.repository.deleted.WorkingDeletedRepository;
 import vn.com.tma.training.ProjectTraining.repository.updated.EmployeeUpdatedRepository;
@@ -39,6 +44,8 @@ public class EmployeeImpl implements EmployeeService {
     @Autowired
     private TransferWorking transferWorking;
     @Autowired
+    private TransferAdvance transferAdvance;
+    @Autowired
     private EmployeeDeletedRepository employeeDeletedRepository;
     @Autowired
     private EmployeeUpdatedRepository employeeUpdatedRepository;
@@ -46,6 +53,10 @@ public class EmployeeImpl implements EmployeeService {
     private WorkingDeletedRepository workingDeletedRepository;
     @Autowired
     private WorkingRepository workingRepository;
+    @Autowired
+    private AdvanceDeletedRepository advanceDeletedRepository;
+    @Autowired
+    private AdvanceRepository advanceRepository;
 
     @Override
     public Set<EmployeeDTO> listEmployee() {
@@ -79,12 +90,18 @@ public class EmployeeImpl implements EmployeeService {
     public void deleteEmployee(Integer id) {
         EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee_id: " + id + " is not found!"));
         EmployeeDeletedEntity deletedEntity = transferEmployee.entityToDeleted(entity);
-        Iterable<WorkingEntity> workingEntitySet = workingRepository.findAllById(id);
-        if (workingEntitySet != null) {
+        Iterable<WorkingEntity> workingEntitySet = workingRepository.findAllByEmployeeNo(id);
+        Iterable<AdvanceEntity> advanceEntitySet = advanceRepository.findAllByEmployeeNo(id);
+        if (workingEntitySet != null && advanceEntitySet != null) {
             workingEntitySet.forEach(workingEntity -> {
                 WorkingDeletedEntity workingDeletedEntity = transferWorking.entityToDeleted(workingEntity);
                 workingDeletedRepository.save(workingDeletedEntity);
                 workingRepository.delete(workingEntity);
+            });
+            advanceEntitySet.forEach(advanceEntity -> {
+                AdvanceDeletedEntity advanceDeletedEntity = transferAdvance.entityToDeleted(advanceEntity);
+                advanceDeletedRepository.save(advanceDeletedEntity);
+                advanceRepository.delete(advanceEntity);
             });
             employeeDeletedRepository.save(deletedEntity);
             employeeRep.delete(entity);

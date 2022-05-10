@@ -32,7 +32,7 @@ public class WorkingImpl implements WorkingService {
     @Override
     public Set<WorkingDTO> listWorking(Integer id) {
         Set<WorkingDTO> workingDTOSet = new HashSet<>();
-        workingRepository.findAllById(id).forEach(workingEntity -> {
+        workingRepository.findAllByEmployeeNo(id).forEach(workingEntity -> {
             workingDTOSet.add(workingMapper.toDTO(workingEntity));
         });
         return workingDTOSet;
