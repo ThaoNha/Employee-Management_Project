@@ -1,6 +1,5 @@
 package vn.com.tma.training.ProjectTraining.entity;
 
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -15,7 +14,7 @@ public class TeamEntity {
     private int no;
     @Column
     private String name;
-    @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
     private Set<EmployeeEntity> employeeSet;
 
     public int getNo() {

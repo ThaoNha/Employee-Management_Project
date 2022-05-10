@@ -9,7 +9,6 @@ import vn.com.tma.training.ProjectTraining.repository.TeamRepository;
 import vn.com.tma.training.ProjectTraining.service.TeamService;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -56,7 +55,7 @@ public class TeamImpl implements TeamService {
 
     @Override
     public void delete(Integer id) {
-        TeamEntity entity=teamRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Team is not found!"));
+        TeamEntity entity = teamRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
         teamRepository.delete(entity);
     }
 }
