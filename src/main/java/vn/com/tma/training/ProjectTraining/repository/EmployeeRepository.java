@@ -20,8 +20,9 @@ public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integ
 
     Set<EmployeeEntity> findAllByTeam(TeamEntity team);
 
-    @Query(value = "select * from Employee e",nativeQuery = true)
+    @Query(value = "select * from Employee e", nativeQuery = true)
     Page<EmployeeEntity> findAllWithPageIndex(Pageable pageable);
 
-
+    @Query(value = "select e.money_per_hour from Employee e where e.no=:id", nativeQuery = true)
+    double findMoneyPerHourByNo(@Param("id") Integer id);
 }
