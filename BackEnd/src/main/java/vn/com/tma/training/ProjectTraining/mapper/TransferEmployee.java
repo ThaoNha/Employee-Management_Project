@@ -22,9 +22,10 @@ public class TransferEmployee {
         deletedEntity.setTeamID(entity.getTeam().getNo());
         deletedEntity.setDeletedDate(new Date());
         return deletedEntity;
-    } 
-    public EmployeeUpdatedEntity entityToUpdated(EmployeeEntity entity){
-        EmployeeUpdatedEntity updatedEntity=new EmployeeUpdatedEntity();
+    }
+
+    public EmployeeUpdatedEntity entityToUpdated(EmployeeEntity entity) {
+        EmployeeUpdatedEntity updatedEntity = new EmployeeUpdatedEntity();
         updatedEntity.setNo(entity.getNo());
         updatedEntity.setFullName(entity.getFullName());
         updatedEntity.setAge(entity.getAge());
