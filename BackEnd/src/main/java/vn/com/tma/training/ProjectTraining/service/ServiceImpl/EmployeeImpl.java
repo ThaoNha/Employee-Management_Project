@@ -87,6 +87,16 @@ public class EmployeeImpl implements EmployeeService {
     }
 
     @Override
+    public Set<EmployeeDTO> findByName(String name) {
+        Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
+        Set<EmployeeEntity> employeeEntitySet = employeeRep.findByName(name);
+        employeeEntitySet.forEach(employeeEntity -> {
+            employeeDTOSet.add(mapper.toDTO(employeeEntity));
+        });
+        return employeeDTOSet;
+    }
+
+    @Override
     public void deleteEmployee(Integer id) {
         EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee_id: " + id + " is not found!"));
         EmployeeDeletedEntity deletedEntity = transferEmployee.entityToDeleted(entity);
@@ -126,16 +136,6 @@ public class EmployeeImpl implements EmployeeService {
         return result.toString().toString();
     }
 
-    @Override
-    public Set<EmployeeDTO> findByName(String name) {
-        Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
-        Set<EmployeeEntity> employeeEntitySet = employeeRep.findByName(name);
-        System.out.println(employeeDTOSet);
-        employeeEntitySet.forEach(employeeEntity -> {
-            employeeDTOSet.add(mapper.toDTO(employeeEntity));
-        });
-        return employeeDTOSet;
-    }
 
     @Override
     public EmployeeDTO updateEmployee(Integer id, EmployeeDTO employeeDTO) {
