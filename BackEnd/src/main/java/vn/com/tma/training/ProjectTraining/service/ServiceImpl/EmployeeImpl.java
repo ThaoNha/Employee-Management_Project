@@ -61,10 +61,6 @@ public class EmployeeImpl implements EmployeeService {
     @Override
     public Set<EmployeeDTO> listEmployee() {
         Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
-//      Set<EmployeeEntity> entitySet=employeeRep.findAll();
-//      for (EmployeeEntity entity : entitySet) {
-//          employeeDTOSet.add(mapper.toDTO(entity));
-//       }
         employeeRep.findAll().forEach(employee -> {
             employeeDTOSet.add(mapper.toDTO(employee));
         });
