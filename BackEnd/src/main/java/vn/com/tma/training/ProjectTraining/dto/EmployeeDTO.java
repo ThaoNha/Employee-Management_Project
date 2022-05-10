@@ -24,8 +24,8 @@ public class EmployeeDTO {
     private String address;
     @Positive(message = "Money Per Hour must be greater than 0")
     private double moneyPerHour;
-    @Size(min = 10, max = 11, message
-            = "Phone number must be between 10 and 11 number")
+    @NotEmpty(message = "Phone number is not empty")
+    @Pattern(regexp = "\\d{10}", message = "Phone number is invalid!")
     private String phone;
     @PastOrPresent(message = " Start day must be past or present today")
     @JsonFormat(pattern = "dd-MM-yyyy")
