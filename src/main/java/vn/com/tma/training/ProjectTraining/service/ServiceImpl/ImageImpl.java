@@ -24,7 +24,8 @@ public class ImageImpl implements ImageService {
 
     @Override
     public byte[] getImg(Integer employee_id) {
-        EmployeeEntity entity = employeeRepository.findById(employee_id).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
+        EmployeeEntity entity = employeeRepository.findById(employee_id)
+                .orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
         return entity.getImage();
     }
 }

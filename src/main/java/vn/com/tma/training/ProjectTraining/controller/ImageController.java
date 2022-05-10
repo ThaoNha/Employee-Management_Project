@@ -15,6 +15,15 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
+    @GetMapping(value = "/{employee_id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<?> getImg(@PathVariable Integer employee_id) {
+        try {
+            return ResponseEntity.ok().body(imageService.getImg(employee_id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+        }
+    }
+
     @PostMapping("/upload/{employee_id}")
     public ResponseEntity<?> upload(@RequestBody MultipartFile img, @PathVariable Integer employee_id) {
         String message = "";
@@ -27,12 +36,5 @@ public class ImageController {
         }
     }
 
-    @GetMapping(value = "/{employee_id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<?> getImg(@PathVariable Integer employee_id) {
-        try {
-            return ResponseEntity.ok().body(imageService.getImg(employee_id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
-        }
-    }
+
 }

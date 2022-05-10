@@ -41,7 +41,6 @@ public class WorkingImpl implements WorkingService {
     @SneakyThrows
     @Override
     public WorkingDTO addWorking(WorkingDTO workingDTO) {
-        System.out.println(workingRepository.existsByEmployeeNoAndDate(workingDTO.getEmployee_id(), workingDTO.getDate()));
         if (workingRepository.existsByEmployeeNoAndDate(workingDTO.getEmployee_id(), workingDTO.getDate()))
             throw new Exception("Working Date is existing!");
 
