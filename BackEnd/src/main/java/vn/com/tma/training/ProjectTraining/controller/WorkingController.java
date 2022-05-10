@@ -7,6 +7,8 @@ import vn.com.tma.training.ProjectTraining.common.MessageResponse;
 import vn.com.tma.training.ProjectTraining.dto.WorkingDTO;
 import vn.com.tma.training.ProjectTraining.service.WorkingService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/working")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -25,10 +27,10 @@ public class WorkingController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> addWorking(@RequestBody WorkingDTO workingDTO) {
+    public ResponseEntity<?> addWorking(@RequestBody @Valid WorkingDTO workingDTO) {
         try {
 
-            return ResponseEntity.ok( workingService.addWorking(workingDTO));
+            return ResponseEntity.ok(workingService.addWorking(workingDTO));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
 

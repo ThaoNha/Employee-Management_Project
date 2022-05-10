@@ -31,7 +31,7 @@ public class AdvanceImpl implements AdvanceService {
     @Override
     public Set<AdvanceDTO> listAdvance(Integer id) {
         Set<AdvanceDTO> advanceDTOSet = new HashSet<>();
-        advanceRepository.findAllById(id).forEach(advanceEntity -> {
+        advanceRepository.findAllByEmployeeNo(id).forEach(advanceEntity -> {
             advanceDTOSet.add(advanceMapper.toDTO(advanceEntity));
         });
         return advanceDTOSet;

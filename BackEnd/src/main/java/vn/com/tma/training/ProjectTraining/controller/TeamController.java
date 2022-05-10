@@ -7,6 +7,8 @@ import vn.com.tma.training.ProjectTraining.common.MessageResponse;
 import vn.com.tma.training.ProjectTraining.dto.TeamDTO;
 import vn.com.tma.training.ProjectTraining.service.TeamService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/team")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -37,7 +39,7 @@ public class TeamController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> addTeam(@RequestBody TeamDTO teamDTO) {
+    public ResponseEntity<?> addTeam(@RequestBody @Valid TeamDTO teamDTO) {
         try {
             return ResponseEntity.ok(teamService.addTeam(teamDTO));
         } catch (Exception e) {
@@ -48,7 +50,7 @@ public class TeamController {
     }
 
     @PutMapping("/update-team/{id}")
-    public ResponseEntity<?> updateTeam(@PathVariable Integer id, @RequestBody TeamDTO teamDTO) {
+    public ResponseEntity<?> updateTeam(@PathVariable Integer id, @RequestBody @Valid TeamDTO teamDTO) {
         try {
             return ResponseEntity.ok(teamService.updateTeam(id, teamDTO));
         } catch (Exception e) {
