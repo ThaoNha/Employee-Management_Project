@@ -11,6 +11,7 @@ import vn.com.tma.training.ProjectTraining.response.StatisticResponse;
 import vn.com.tma.training.ProjectTraining.service.StatisticService;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @Service
@@ -26,9 +27,12 @@ public class StatisticImpl implements StatisticService {
     @Override
     public StatisticResponse getStatistic(Integer id) {
         double moneyPerHour = employeeRepository.findMoneyPerHourByNo(id);
-        int month = LocalDate.now().getMonthValue();
-        List<WorkingEntity> workingList = workingRepository.findAllByEmployeeNoAndMonth(id, month);
-        List<AdvanceEntity> advanceList = advanceRepository.findAllByEmployeeNoAndMonth(id, month);
+
+        LocalDate start = YearMonth.now().atDay(1);
+        LocalDate end = YearMonth.now().atEndOfMonth();
+
+        List<WorkingEntity> workingList = workingRepository.findAllByEmployeeNoAndMonth(id, start, end);
+        List<AdvanceEntity> advanceList = advanceRepository.findAllByEmployeeNoAndMonth(id, start, end);
 
 
         StatisticResponse statisticResponse = new StatisticResponse();
@@ -40,5 +44,14 @@ public class StatisticImpl implements StatisticService {
         statisticResponse.setTotalAdvances(totalAdvance);
         statisticResponse.setSummary(totalWorking - totalAdvance);
         return statisticResponse;
+    }
+
+    private LocalDate firstDayOfPreviousMonth(LocalDate date) {
+        return date.minusMonths(1).withDayOfMonth(1);
+    }
+
+
+    private LocalDate lastDayOfPreviousMonth(LocalDate date) {
+        return date.withDayOfMonth(1).minusDays(1);
     }
 }
