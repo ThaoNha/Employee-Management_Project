@@ -3,7 +3,10 @@ package vn.com.tma.training.ProjectTraining.entity.entityDeleted;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
@@ -19,7 +22,7 @@ public class EmployeeDeletedEntity {
     @Column(name = "age")
     private int age;
     @Column(name = "isMale")
-    private boolean isMale;;
+    private boolean isMale;
     @Column(name = "address")
     private String address;
     @Column(name = "money_per_hour")

@@ -17,7 +17,7 @@ public class ImageImpl implements ImageService {
 
     @Override
     public void save(MultipartFile img, Integer employee_id) throws IOException {
-        EmployeeEntity entity=employeeRepository.findById(employee_id).orElseThrow(()->new IllegalArgumentException("Employee is not found!"));
+        EmployeeEntity entity = employeeRepository.findById(employee_id).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
         entity.setImage(img.getBytes());
         employeeRepository.save(entity);
     }
