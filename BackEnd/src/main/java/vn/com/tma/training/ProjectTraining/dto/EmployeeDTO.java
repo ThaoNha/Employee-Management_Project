@@ -14,11 +14,13 @@ import java.util.Date;
 public class EmployeeDTO {
     private int no;
     @NotEmpty(message = "Full name is not empty")
+    @Size(min = 1, max = 255)
     private String fullName;
     @Min(value = 18, message = "Age should not be less than 18")
     @Max(value = 70, message = "Age should not be greater than 70")
     private int age;
     private boolean isMale;
+    @Size(min = 0, max = 255)
     private String address;
     @Positive(message = "Money Per Hour must be greater than 0")
     private double moneyPerHour;
