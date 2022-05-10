@@ -69,10 +69,22 @@ public class EmployeeImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO newEmployee(EmployeeDTO employeeDTO) {
-        TeamEntity teamEntity = teamRep.findById(employeeDTO.getTeamID()).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
-        EmployeeEntity entity = employeeRep.save(mapper.toEntity(employeeDTO, teamEntity));
-        return mapper.toDTO(entity);
+    public Set<EmployeeDTO> listEmployeeByTeam(Integer teamID) {
+        Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
+        TeamEntity entity = teamRep.findById(teamID).orElseThrow(() -> new IllegalArgumentException("Team_id: " + teamID + " is not found!"));
+
+
+        employeeRep.findAllByTeam(entity).forEach(employeeEntity -> {
+            employeeDTOSet.add(mapper.toDTO(employeeEntity));
+        });
+        return employeeDTOSet;
+
+    }
+
+    @Override
+    public Page<EmployeeDTO> getPage(Integer pageIndex) {
+        Page<EmployeeEntity> page = employeeRep.findAllWithPageIndex(PageRequest.of(pageIndex, 5));
+        return page.map(entity -> mapper.toDTO(entity));
     }
 
     @Override
@@ -90,6 +102,13 @@ public class EmployeeImpl implements EmployeeService {
             employeeDTOSet.add(mapper.toDTO(employeeEntity));
         });
         return employeeDTOSet;
+    }
+
+    @Override
+    public EmployeeDTO newEmployee(EmployeeDTO employeeDTO) {
+        TeamEntity teamEntity = teamRep.findById(employeeDTO.getTeamID()).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
+        EmployeeEntity entity = employeeRep.save(mapper.toEntity(employeeDTO, teamEntity));
+        return mapper.toDTO(entity);
     }
 
     @Override
@@ -153,24 +172,7 @@ public class EmployeeImpl implements EmployeeService {
 
     }
 
-    @Override
-    public Set<EmployeeDTO> listEmployeeByTeam(Integer teamID) {
-        Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
-        TeamEntity entity = teamRep.findById(teamID).orElseThrow(() -> new IllegalArgumentException("Team_id: " + teamID + " is not found!"));
 
-
-        employeeRep.findAllByTeam(entity).forEach(employeeEntity -> {
-            employeeDTOSet.add(mapper.toDTO(employeeEntity));
-        });
-        return employeeDTOSet;
-
-    }
-
-    @Override
-    public Page<EmployeeDTO> getPage(Integer pageIndex) {
-        Page<EmployeeEntity> page = employeeRep.findAllWithPageIndex(PageRequest.of(pageIndex, 5));
-        return page.map(entity -> mapper.toDTO(entity));
-    }
 
 
 }
