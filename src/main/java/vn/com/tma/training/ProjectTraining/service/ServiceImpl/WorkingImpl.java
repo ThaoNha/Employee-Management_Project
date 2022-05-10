@@ -1,5 +1,6 @@
 package vn.com.tma.training.ProjectTraining.service.ServiceImpl;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.WorkingDTO;
@@ -37,8 +38,13 @@ public class WorkingImpl implements WorkingService {
         return workingDTOSet;
     }
 
+    @SneakyThrows
     @Override
     public WorkingDTO addWorking(WorkingDTO workingDTO) {
+        System.out.println(workingRepository.existsByEmployeeNoAndDate(workingDTO.getEmployee_id(), workingDTO.getDate()));
+        if (workingRepository.existsByEmployeeNoAndDate(workingDTO.getEmployee_id(), workingDTO.getDate()))
+            throw new Exception("Working Date is existing!");
+
         EmployeeEntity employeeEntity = employeeRepository.findById(workingDTO.getEmployee_id()).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
         WorkingEntity entity = workingMapper.toEntity(workingDTO, employeeEntity);
         return workingMapper.toDTO(workingRepository.save(entity));
