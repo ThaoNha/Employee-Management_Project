@@ -8,6 +8,7 @@ import vn.com.tma.training.ProjectTraining.dto.TeamDTO;
 import vn.com.tma.training.ProjectTraining.service.TeamService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/team")
@@ -47,6 +48,17 @@ public class TeamController {
 
         }
 
+    }
+
+    @PostMapping("/create-all")
+    public ResponseEntity<?> createAll(@RequestBody @Valid List<TeamDTO> list) {
+        try {
+            list.forEach(teamDTO -> teamService.addTeam(teamDTO));
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+
+        }
     }
 
     @PutMapping("/update-team/{id}")
