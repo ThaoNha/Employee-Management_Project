@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartFile;
 import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
 import vn.com.tma.training.ProjectTraining.repository.EmployeeRepository;
+import vn.com.tma.training.ProjectTraining.response.ImageResponse;
 import vn.com.tma.training.ProjectTraining.service.ImageService;
 
 import java.io.IOException;
@@ -18,14 +19,15 @@ public class ImageImpl implements ImageService {
     @Override
     public void save(MultipartFile img, Integer employee_id) throws IOException {
         EmployeeEntity entity = employeeRepository.findById(employee_id).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
+        entity.setContentType(img.getContentType());
         entity.setImage(img.getBytes());
         employeeRepository.save(entity);
     }
 
     @Override
-    public byte[] getImg(Integer employee_id) {
+    public ImageResponse getImg(Integer employee_id) {
         EmployeeEntity entity = employeeRepository.findById(employee_id)
                 .orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
-        return entity.getImage();
+        return ImageResponse.builder().data(entity.getImage()).contextType(entity.getContentType()).build();
     }
 }

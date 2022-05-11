@@ -34,6 +34,7 @@ public class EmployeeEntity {
 
     @Lob
     private byte[] image;
+    private String contentType;
 
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false)
