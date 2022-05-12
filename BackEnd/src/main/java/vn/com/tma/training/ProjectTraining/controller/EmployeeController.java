@@ -27,11 +27,11 @@ public class EmployeeController {
     }
 
     @GetMapping("/get-page")
-    public ResponseEntity<?> getPage(@RequestParam(required = false, defaultValue = "1") Integer index) {
-        if (index == 0)
+    public ResponseEntity<?> getPage(@RequestParam(required = false, defaultValue = "1") Integer page) {
+        if (page == 0)
             ResponseEntity.badRequest().body("Page must be greater than 0!");
         try {
-            return ResponseEntity.ok(employeeService.getPage(index - 1));
+            return ResponseEntity.ok(employeeService.getPage(page - 1));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
 
