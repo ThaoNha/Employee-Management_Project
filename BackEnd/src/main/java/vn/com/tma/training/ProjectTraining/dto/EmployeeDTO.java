@@ -20,7 +20,7 @@ public class EmployeeDTO {
     @Max(value = 70, message = "Age should not be greater than 70")
     private int age;
     private boolean isMale;
-    @Size(min = 0, max = 255)
+    @Size(min = 1, max = 255)
     private String address;
     @Positive(message = "Money Per Hour must be greater than 0")
     private double moneyPerHour;
