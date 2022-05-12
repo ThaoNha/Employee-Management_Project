@@ -1,6 +1,8 @@
 package vn.com.tma.training.ProjectTraining.service.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.AdvanceDTO;
 import vn.com.tma.training.ProjectTraining.entity.AdvanceEntity;
@@ -11,9 +13,6 @@ import vn.com.tma.training.ProjectTraining.repository.AdvanceRepository;
 import vn.com.tma.training.ProjectTraining.repository.EmployeeRepository;
 import vn.com.tma.training.ProjectTraining.repository.deleted.AdvanceDeletedRepository;
 import vn.com.tma.training.ProjectTraining.service.AdvanceService;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 public class AdvanceImpl implements AdvanceService {
@@ -29,12 +28,9 @@ public class AdvanceImpl implements AdvanceService {
     private AdvanceDeletedRepository advanceDeletedRepository;
 
     @Override
-    public Set<AdvanceDTO> listAdvance(Integer id) {
-        Set<AdvanceDTO> advanceDTOSet = new HashSet<>();
-        advanceRepository.findAllByEmployeeNo(id).forEach(advanceEntity -> {
-            advanceDTOSet.add(advanceMapper.toDTO(advanceEntity));
-        });
-        return advanceDTOSet;
+    public Page<AdvanceDTO> listAdvance(Integer id, Integer page) {
+        Page<AdvanceEntity> pageAdvance = advanceRepository.findAllByEmployeeNo(id, PageRequest.of(page - 1, 5));
+        return pageAdvance.map(advanceEntity -> advanceMapper.toDTO(advanceEntity));
     }
 
     @Override

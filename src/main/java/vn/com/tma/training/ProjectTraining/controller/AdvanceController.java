@@ -17,9 +17,11 @@ public class AdvanceController {
     private AdvanceService advanceService;
 
     @GetMapping("/get-all/{employee_id}")
-    public ResponseEntity<?> listAdvance(@PathVariable Integer employee_id) {
+    public ResponseEntity<?> listAdvance(@PathVariable Integer employee_id, @RequestParam(required = false, defaultValue = "1") Integer page) {
+        if (page == 0)
+            ResponseEntity.badRequest().body("Page must be greater than 0!");
         try {
-            return ResponseEntity.ok(advanceService.listAdvance(employee_id));
+            return ResponseEntity.ok(advanceService.listAdvance(employee_id, page));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
 
