@@ -26,8 +26,10 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/get-page/{index}")
-    public ResponseEntity<?> getPage(@PathVariable Integer index) {
+    @GetMapping("/get-page")
+    public ResponseEntity<?> getPage(@RequestParam(required = false, defaultValue = "1") Integer index) {
+        if (index == 0)
+            ResponseEntity.badRequest().body("Page must be greater than 0!");
         try {
             return ResponseEntity.ok(employeeService.getPage(index - 1));
         } catch (Exception e) {
@@ -38,12 +40,13 @@ public class EmployeeController {
     }
 
     @GetMapping("/find-by-name")
-    public ResponseEntity<?> findByName(@RequestParam String name) {
+    public ResponseEntity<?> findByName(@RequestParam String name, @RequestParam(required = false, defaultValue = "1") Integer page) {
+        if (page == 0)
+            ResponseEntity.badRequest().body("Page must be greater than 0!");
         try {
-            return ResponseEntity.ok(employeeService.findByName(name));
+            return ResponseEntity.ok(employeeService.findByName(name, page));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
-
         }
 
     }
@@ -58,10 +61,12 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/find-by-team/{teamID}")
-    public ResponseEntity<?> listEmployeeByTeam(@PathVariable Integer teamID) {
+    @GetMapping("/find-by-team/{team_id}")
+    public ResponseEntity<?> listEmployeeByTeam(@PathVariable Integer team_id, @RequestParam(required = false, defaultValue = "1") Integer page) {
+        if (page == 0)
+            ResponseEntity.badRequest().body("Page must be greater than 0!");
         try {
-            return ResponseEntity.ok(employeeService.listEmployeeByTeam(teamID));
+            return ResponseEntity.ok(employeeService.listEmployeeByTeam(team_id, page));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
 
