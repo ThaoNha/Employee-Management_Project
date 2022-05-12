@@ -1,11 +1,12 @@
 package vn.com.tma.training.ProjectTraining.service;
 
+import org.springframework.data.domain.Page;
 import vn.com.tma.training.ProjectTraining.dto.WorkingDTO;
 
 import java.util.Set;
 
 public interface WorkingService {
-    Set<WorkingDTO> listWorking(Integer id);
+    Page<WorkingDTO> listWorking(Integer id, Integer page);
 
     WorkingDTO addWorking(WorkingDTO workingDTO);
 

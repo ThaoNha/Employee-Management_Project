@@ -1,5 +1,8 @@
 package vn.com.tma.training.ProjectTraining.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 
 public interface WorkingRepository extends CrudRepository<WorkingEntity, Integer> {
+    Page<WorkingEntity> findAllByEmployeeNo(Integer employee_id, Pageable of);
+
     Iterable<WorkingEntity> findAllByEmployeeNo(Integer employee_id);
 
     @Query(value = "select w.* from working w where employee_id=:id and w.date between :startDate and :endDate", nativeQuery = true)

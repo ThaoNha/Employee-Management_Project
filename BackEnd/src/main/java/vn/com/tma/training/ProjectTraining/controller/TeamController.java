@@ -18,9 +18,11 @@ public class TeamController {
     private TeamService teamService;
 
     @GetMapping("/get-all")
-    public ResponseEntity<?> listTeam() {
+    public ResponseEntity<?> listTeam(@RequestParam(required = false, defaultValue = "1") Integer page) {
+        if (page == 0)
+            ResponseEntity.badRequest().body("Page must be greater than 0!");
         try {
-            return ResponseEntity.ok(teamService.listTeam());
+            return ResponseEntity.ok(teamService.listTeam(page));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
@@ -28,10 +30,11 @@ public class TeamController {
     }
 
     @GetMapping("/find-by-name")
-    public ResponseEntity<?> findTeamByName(@RequestParam String name) {
-
+    public ResponseEntity<?> findTeamByName(@RequestParam String name, @RequestParam(required = false, defaultValue = "1") Integer page) {
+        if (page == 0)
+            ResponseEntity.badRequest().body("Page must be greater than 0!");
         try {
-            return ResponseEntity.ok(teamService.findTeamByName(name));
+            return ResponseEntity.ok(teamService.findTeamByName(name, page));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
@@ -41,6 +44,7 @@ public class TeamController {
 
     @PostMapping("/create")
     public ResponseEntity<?> addTeam(@RequestBody @Valid TeamDTO teamDTO) {
+
         try {
             return ResponseEntity.ok(teamService.addTeam(teamDTO));
         } catch (Exception e) {

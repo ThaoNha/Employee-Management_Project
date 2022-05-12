@@ -1,13 +1,12 @@
 package vn.com.tma.training.ProjectTraining.service;
 
+import org.springframework.data.domain.Page;
 import vn.com.tma.training.ProjectTraining.dto.TeamDTO;
 
-import java.util.Set;
-
 public interface TeamService {
-    Set<TeamDTO> listTeam();
+    Page<TeamDTO> listTeam(Integer page);
 
-    Set<TeamDTO> findTeamByName(String name);
+    Page<TeamDTO> findTeamByName(String name, Integer page);
 
     TeamDTO addTeam(TeamDTO teamDTO);
 

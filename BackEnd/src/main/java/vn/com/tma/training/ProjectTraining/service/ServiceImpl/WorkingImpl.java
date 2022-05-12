@@ -2,6 +2,8 @@ package vn.com.tma.training.ProjectTraining.service.ServiceImpl;
 
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.WorkingDTO;
 import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
@@ -30,12 +32,10 @@ public class WorkingImpl implements WorkingService {
     private WorkingDeletedRepository workingDeletedRepository;
 
     @Override
-    public Set<WorkingDTO> listWorking(Integer id) {
-        Set<WorkingDTO> workingDTOSet = new HashSet<>();
-        workingRepository.findAllByEmployeeNo(id).forEach(workingEntity -> {
-            workingDTOSet.add(workingMapper.toDTO(workingEntity));
-        });
-        return workingDTOSet;
+    public Page<WorkingDTO> listWorking(Integer id, Integer page) {
+
+        Page<WorkingEntity> pageWorking = workingRepository.findAllByEmployeeNo(id, PageRequest.of(page - 1, 5));
+        return pageWorking.map(workingEntity -> workingMapper.toDTO(workingEntity));
     }
 
     @SneakyThrows

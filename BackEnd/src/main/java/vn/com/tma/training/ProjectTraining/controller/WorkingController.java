@@ -17,9 +17,11 @@ public class WorkingController {
     private WorkingService workingService;
 
     @GetMapping("/get-all/{employee_id}")
-    public ResponseEntity<?> listWorking(@PathVariable Integer employee_id) {
+    public ResponseEntity<?> listWorking(@PathVariable Integer employee_id, @RequestParam(required = false, defaultValue = "1") Integer page) {
+        if (page == 0)
+            ResponseEntity.badRequest().body("Page must be greater than 0!");
         try {
-            return ResponseEntity.ok(workingService.listWorking(employee_id));
+            return ResponseEntity.ok(workingService.listWorking(employee_id, page));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
 
