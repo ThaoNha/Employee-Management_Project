@@ -1,6 +1,7 @@
 package vn.com.tma.training.ProjectTraining.repository;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -14,9 +15,9 @@ public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integ
     Set<EmployeeEntity> findAllByFullNameContains(String name);
 
     @Query(value = "Select * from Employee em where em.full_name like %:name%", nativeQuery = true)
-    Set<EmployeeEntity> findByName(@Param("name") String name);
+    Page<EmployeeEntity> findByName(@Param("name") String name, Pageable of);
 
-    Set<EmployeeEntity> findAllByTeam(TeamEntity team);
+    Page<EmployeeEntity> findAllByTeam(TeamEntity team, Pageable of);
 
     @Query(value = "select * from Employee e", nativeQuery = true)
     Page<EmployeeEntity> findAllWithPageIndex(Pageable pageable);
