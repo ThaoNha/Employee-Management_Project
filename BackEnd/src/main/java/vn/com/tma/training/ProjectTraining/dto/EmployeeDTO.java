@@ -27,8 +27,8 @@ public class EmployeeDTO {
     @NotEmpty(message = "Phone number is not empty")
     @Pattern(regexp = "\\d{10}", message = "Phone number is invalid!")
     private String phone;
-    @PastOrPresent(message = " Start day must be past or present today")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    //    @PastOrPresent(message = " Start day must be past or present today")
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private Date startDay;
     @Positive(message = "Team must be greater than 0 ")
     private int teamID;
