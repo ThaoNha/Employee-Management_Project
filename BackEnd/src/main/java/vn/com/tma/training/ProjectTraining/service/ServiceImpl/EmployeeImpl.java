@@ -92,7 +92,7 @@ public class EmployeeImpl implements EmployeeService {
 
     @Override
     public Page<EmployeeDTO> findByName(String name, Integer page) {
-        Page<EmployeeEntity> pageEmployee = employeeRep.findByName(name, PageRequest.of(page - 1, 5));
+        Page<EmployeeEntity> pageEmployee = employeeRep.findByFullNameContainingIgnoreCase(name, PageRequest.of(page - 1, 5));
         return pageEmployee.map(employeeEntity -> mapper.toDTO(employeeEntity));
     }
 

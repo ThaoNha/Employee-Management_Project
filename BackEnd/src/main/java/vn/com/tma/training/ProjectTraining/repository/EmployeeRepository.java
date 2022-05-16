@@ -14,8 +14,7 @@ import java.util.Set;
 public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integer> {
     Set<EmployeeEntity> findAllByFullNameContains(String name);
 
-    @Query(value = "Select * from Employee em where em.full_name like %:name%", nativeQuery = true)
-    Page<EmployeeEntity> findByName(@Param("name") String name, Pageable of);
+    Page<EmployeeEntity> findByFullNameContainingIgnoreCase(String name, Pageable of);
 
     Page<EmployeeEntity> findAllByTeam(TeamEntity team, Pageable of);
 
@@ -23,5 +22,5 @@ public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integ
     Page<EmployeeEntity> findAllWithPageIndex(Pageable pageable);
 
     @Query(value = "select e.money_per_hour from Employee e where e.no=:id", nativeQuery = true)
-    double findMoneyPerHourByNo(@Param("id") Integer id);
+    double findMoneyPerHourByNo( Integer id);
 }
