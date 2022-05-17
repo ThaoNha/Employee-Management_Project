@@ -10,6 +10,9 @@ import vn.com.tma.training.ProjectTraining.mapper.TeamMapper;
 import vn.com.tma.training.ProjectTraining.repository.TeamRepository;
 import vn.com.tma.training.ProjectTraining.service.TeamService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 
 public class TeamImpl implements TeamService {
@@ -50,5 +53,16 @@ public class TeamImpl implements TeamService {
     public void delete(Integer id) {
         TeamEntity entity = teamRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
         teamRepository.delete(entity);
+    }
+
+    @Override
+    public List<TeamDTO> listTeam() {
+        List<TeamDTO> dtos = new ArrayList<>();
+        Iterable<TeamEntity> pageTeam = teamRepository.findAll();
+        pageTeam.forEach(teamEntity ->
+                dtos.add(mapper.toDTO(teamEntity))
+        );
+        return dtos;
+
     }
 }

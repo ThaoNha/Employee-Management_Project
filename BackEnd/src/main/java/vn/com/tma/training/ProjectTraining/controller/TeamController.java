@@ -17,7 +17,7 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
-    @GetMapping("/get-all")
+    @GetMapping("/get-page")
     public ResponseEntity<?> listTeam(@RequestParam(required = false, defaultValue = "1") Integer page) {
         if (page == 0)
             ResponseEntity.badRequest().body("Page must be greater than 0!");
@@ -28,7 +28,16 @@ public class TeamController {
         }
 
     }
+    @GetMapping("/get-all")
+    public ResponseEntity<?> listTeam() {
 
+        try {
+            return ResponseEntity.ok(teamService.listTeam());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+        }
+
+    }
     @GetMapping("/find-by-name")
     public ResponseEntity<?> findTeamByName(@RequestParam String name, @RequestParam(required = false, defaultValue = "1") Integer page) {
         if (page == 0)
