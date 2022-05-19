@@ -28,6 +28,10 @@ public class ImageImpl implements ImageService {
     public ImageResponse getImg(Integer employee_id) {
         EmployeeEntity entity = employeeRepository.findById(employee_id)
                 .orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
-        return ImageResponse.builder().data(entity.getImage()).contextType(entity.getContentType()).build();
+        if (entity.getImage()!=null){
+            return ImageResponse.builder().data(entity.getImage()).contextType(entity.getContentType()).build();
+        }else{
+            throw new IllegalArgumentException("No Image");
+        }
     }
 }
