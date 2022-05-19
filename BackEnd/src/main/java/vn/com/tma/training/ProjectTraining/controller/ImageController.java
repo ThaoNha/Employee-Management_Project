@@ -19,7 +19,6 @@ public class ImageController {
     public ResponseEntity<?> getImg(@PathVariable Integer employee_id) {
         try {
             ImageResponse imageResponse = imageService.getImg(employee_id);
-            System.out.println(imageResponse);
             return ResponseEntity.ok().header("Content-Type", imageResponse.getContextType()).body(imageResponse.getData());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
