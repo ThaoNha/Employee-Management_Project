@@ -116,6 +116,7 @@ public class EmployeeImpl implements EmployeeService {
         entity.setAddress(employeeDTO.getAddress());
         entity.setMoneyPerHour(employeeDTO.getMoneyPerHour());
         entity.setMale(employeeDTO.isMale());
+        entity.setAddress(employeeDTO.getAddress());
 
 
         employeeUpdatedRepository.save(updatedEntity);
