@@ -16,7 +16,7 @@ public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integ
 
     Page<EmployeeEntity> findAllByTeam(TeamEntity team, Pageable of);
 
-    @Query(value = "select e.no, e.full_name, e.age, e.male, e.address, e.money_per_hour,e.phone,e.start-day from employee e,", nativeQuery = true)
+    @Query(value = "select e.no, e.full_name, e.age, e.male, e.address, e.money_per_hour,e.phone,e.start_day from employee e,", nativeQuery = true)
     Page<EmployeeEntity> findAll(Pageable pageable);
 
     @Query(value = "select e.money_per_hour from Employee e where e.no=:id", nativeQuery = true)
