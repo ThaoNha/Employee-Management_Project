@@ -126,6 +126,7 @@ public class EmployeeImpl implements EmployeeService {
     @Override
     public void deleteEmployee(Integer id) {
         EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee_id: " + id + " is not found!"));
+        ImageEntity imageEntity=imageRepository.findByEmployee(entity);
         EmployeeDeletedEntity deletedEntity = transferEmployee.entityToDeleted(entity);
         Iterable<WorkingEntity> workingEntitySet = workingRepository.findAllByEmployeeNo(id);
         Iterable<AdvanceEntity> advanceEntitySet = advanceRepository.findAllByEmployeeNo(id);
@@ -140,6 +141,7 @@ public class EmployeeImpl implements EmployeeService {
                 advanceDeletedRepository.save(advanceDeletedEntity);
                 advanceRepository.delete(advanceEntity);
             });
+            imageRepository.delete(imageEntity);
             employeeDeletedRepository.save(deletedEntity);
             employeeRep.delete(entity);
 
