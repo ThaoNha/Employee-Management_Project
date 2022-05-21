@@ -14,7 +14,6 @@ public class ImageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "no")
     private int no;
-    @Lob
     @Column(name = "data")
     private byte[] data;
     private String contentType;
