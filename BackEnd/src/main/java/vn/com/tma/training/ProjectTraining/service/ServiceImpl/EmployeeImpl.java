@@ -77,8 +77,9 @@ public class EmployeeImpl implements EmployeeService {
 
     @Override
     public Page<EmployeeDTO> listEmployeeByTeam(Integer teamID, Integer page) {
+        TeamEntity entity = teamRep.findById(teamID).orElseThrow(() -> new IllegalArgumentException("Team_id: " + teamID + " is not found!"));
 
-        Page<EmployeeEntity> pageEmployee = employeeRep.findAllByTeam(teamID, PageRequest.of(page - 1, 5, Sort.by("no")));
+        Page<EmployeeEntity> pageEmployee = employeeRep.findAllByTeam(entity, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageEmployee.map(employeeEntity -> mapper.toDTO(employeeEntity));
     }
 
