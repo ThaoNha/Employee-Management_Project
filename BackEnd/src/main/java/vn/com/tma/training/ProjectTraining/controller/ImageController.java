@@ -8,6 +8,8 @@ import vn.com.tma.training.ProjectTraining.common.MessageResponse;
 import vn.com.tma.training.ProjectTraining.response.ImageResponse;
 import vn.com.tma.training.ProjectTraining.service.ImageService;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/api/image")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -27,6 +29,11 @@ public class ImageController {
 
     @PostMapping("/upload/{employee_id}")
     public ResponseEntity<?> upload(@RequestBody MultipartFile img, @PathVariable Integer employee_id) {
+        String contentType=img.getContentType();
+        String s= contentType != null ? contentType.substring(0, 5) : null;
+        if(!s.equals("image")){
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message("File is not matched value!").build());
+        }
         String message = "";
         try {
             imageService.save(img, employee_id);
