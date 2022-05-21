@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.WorkingDTO;
 import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
@@ -34,7 +35,7 @@ public class WorkingImpl implements WorkingService {
     @Override
     public Page<WorkingDTO> listWorking(Integer id, Integer page) {
 
-        Page<WorkingEntity> pageWorking = workingRepository.findAllByEmployeeNo(id, PageRequest.of(page - 1, 5));
+        Page<WorkingEntity> pageWorking = workingRepository.findAllByEmployeeNo(id, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageWorking.map(workingEntity -> workingMapper.toDTO(workingEntity));
     }
 

@@ -3,6 +3,7 @@ package vn.com.tma.training.ProjectTraining.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.EmployeeDTO;
 import vn.com.tma.training.ProjectTraining.entity.AdvanceEntity;
@@ -70,7 +71,7 @@ public class EmployeeImpl implements EmployeeService {
 
     @Override
     public Page<EmployeeDTO> getPage(Integer pageIndex) {
-        Page<EmployeeEntity> page = employeeRep.findAll(PageRequest.of(pageIndex, 5));
+        Page<EmployeeEntity> page = employeeRep.findAll(PageRequest.of(pageIndex, 5, Sort.by("no")));
         return page.map(entity -> mapper.toDTO(entity));
     }
 
@@ -78,7 +79,7 @@ public class EmployeeImpl implements EmployeeService {
     public Page<EmployeeDTO> listEmployeeByTeam(Integer teamID, Integer page) {
         TeamEntity entity = teamRep.findById(teamID).orElseThrow(() -> new IllegalArgumentException("Team_id: " + teamID + " is not found!"));
 
-        Page<EmployeeEntity> pageEmployee = employeeRep.findAllByTeam(entity, PageRequest.of(page - 1, 5));
+        Page<EmployeeEntity> pageEmployee = employeeRep.findAllByTeam(entity, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageEmployee.map(employeeEntity -> mapper.toDTO(employeeEntity));
     }
 
@@ -92,7 +93,7 @@ public class EmployeeImpl implements EmployeeService {
 
     @Override
     public Page<EmployeeDTO> findByName(String name, Integer page) {
-        Page<EmployeeEntity> pageEmployee = employeeRep.findByFullNameContainingIgnoreCase(name, PageRequest.of(page - 1, 5));
+        Page<EmployeeEntity> pageEmployee = employeeRep.findByFullNameContainingIgnoreCase(name, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageEmployee.map(employeeEntity -> mapper.toDTO(employeeEntity));
     }
 

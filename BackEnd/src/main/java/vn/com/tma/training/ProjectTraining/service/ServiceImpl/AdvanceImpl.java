@@ -3,6 +3,7 @@ package vn.com.tma.training.ProjectTraining.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.AdvanceDTO;
 import vn.com.tma.training.ProjectTraining.entity.AdvanceEntity;
@@ -29,7 +30,7 @@ public class AdvanceImpl implements AdvanceService {
 
     @Override
     public Page<AdvanceDTO> listAdvance(Integer id, Integer page) {
-        Page<AdvanceEntity> pageAdvance = advanceRepository.findAllByEmployeeNo(id, PageRequest.of(page - 1, 5));
+        Page<AdvanceEntity> pageAdvance = advanceRepository.findAllByEmployeeNo(id, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageAdvance.map(advanceEntity -> advanceMapper.toDTO(advanceEntity));
     }
 

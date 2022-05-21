@@ -3,6 +3,7 @@ package vn.com.tma.training.ProjectTraining.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.TeamDTO;
 import vn.com.tma.training.ProjectTraining.entity.TeamEntity;
@@ -23,13 +24,13 @@ public class TeamImpl implements TeamService {
 
     @Override
     public Page<TeamDTO> listTeam(Integer page) {
-        Page<TeamEntity> pageTeam = teamRepository.findAll(PageRequest.of(page - 1, 5));
+        Page<TeamEntity> pageTeam = teamRepository.findAll(PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageTeam.map(team -> mapper.toDTO(team));
     }
 
     @Override
     public Page<TeamDTO> findTeamByName(String name, Integer page) {
-        Page<TeamEntity> pageTeam = teamRepository.findByTeamName(name, PageRequest.of(page - 1, 5));
+        Page<TeamEntity> pageTeam = teamRepository.findByTeamName(name, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageTeam.map(teamEntity -> mapper.toDTO(teamEntity));
     }
 
