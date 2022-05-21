@@ -5,10 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.com.tma.training.ProjectTraining.common.MessageResponse;
-import vn.com.tma.training.ProjectTraining.response.ImageResponse;
+import vn.com.tma.training.ProjectTraining.dto.ImageDTO;
 import vn.com.tma.training.ProjectTraining.service.ImageService;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/image")
@@ -20,8 +18,8 @@ public class ImageController {
     @GetMapping(value = "/{employee_id}")
     public ResponseEntity<?> getImg(@PathVariable Integer employee_id) {
         try {
-            ImageResponse imageResponse = imageService.getImg(employee_id);
-            return ResponseEntity.ok().header("Content-Type", imageResponse.getContextType()).body(imageResponse.getData());
+            ImageDTO imageDTO = imageService.getImg(employee_id);
+            return ResponseEntity.ok().header("Content-Type", imageDTO.getContentType()).body(imageDTO.getData());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }

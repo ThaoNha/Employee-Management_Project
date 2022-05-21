@@ -32,10 +32,6 @@ public class EmployeeEntity {
     @Temporal(TemporalType.DATE)
     private Date startDay;
 
-    @Lob
-    private byte[] image;
-    private String contentType;
-
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false)
     private TeamEntity team;
@@ -45,4 +41,6 @@ public class EmployeeEntity {
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private Set<AdvanceEntity> advanceSet;
+
+
 }

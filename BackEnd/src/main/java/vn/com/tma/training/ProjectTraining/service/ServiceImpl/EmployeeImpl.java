@@ -6,10 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.EmployeeDTO;
-import vn.com.tma.training.ProjectTraining.entity.AdvanceEntity;
-import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
-import vn.com.tma.training.ProjectTraining.entity.TeamEntity;
-import vn.com.tma.training.ProjectTraining.entity.WorkingEntity;
+import vn.com.tma.training.ProjectTraining.entity.*;
 import vn.com.tma.training.ProjectTraining.entity.entityDeleted.AdvanceDeletedEntity;
 import vn.com.tma.training.ProjectTraining.entity.entityDeleted.EmployeeDeletedEntity;
 import vn.com.tma.training.ProjectTraining.entity.entityDeleted.WorkingDeletedEntity;
@@ -18,10 +15,7 @@ import vn.com.tma.training.ProjectTraining.mapper.EmployeeMapper;
 import vn.com.tma.training.ProjectTraining.mapper.TransferAdvance;
 import vn.com.tma.training.ProjectTraining.mapper.TransferEmployee;
 import vn.com.tma.training.ProjectTraining.mapper.TransferWorking;
-import vn.com.tma.training.ProjectTraining.repository.AdvanceRepository;
-import vn.com.tma.training.ProjectTraining.repository.EmployeeRepository;
-import vn.com.tma.training.ProjectTraining.repository.TeamRepository;
-import vn.com.tma.training.ProjectTraining.repository.WorkingRepository;
+import vn.com.tma.training.ProjectTraining.repository.*;
 import vn.com.tma.training.ProjectTraining.repository.deleted.AdvanceDeletedRepository;
 import vn.com.tma.training.ProjectTraining.repository.deleted.EmployeeDeletedRepository;
 import vn.com.tma.training.ProjectTraining.repository.deleted.WorkingDeletedRepository;
@@ -58,7 +52,8 @@ public class EmployeeImpl implements EmployeeService {
     private AdvanceDeletedRepository advanceDeletedRepository;
     @Autowired
     private AdvanceRepository advanceRepository;
-
+    @Autowired
+    private ImageRepository imageRepository;
     @Override
     public Set<EmployeeDTO> listEmployee() {
         Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
@@ -101,6 +96,9 @@ public class EmployeeImpl implements EmployeeService {
     public EmployeeDTO newEmployee(EmployeeDTO employeeDTO) {
         TeamEntity teamEntity = teamRep.findById(employeeDTO.getTeamID()).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
         EmployeeEntity entity = employeeRep.save(mapper.toEntity(employeeDTO, teamEntity));
+        ImageEntity imageEntity=new ImageEntity();
+        imageEntity.setEmployee(entity);
+        imageRepository.save(imageEntity);
         return mapper.toDTO(entity);
     }
 
