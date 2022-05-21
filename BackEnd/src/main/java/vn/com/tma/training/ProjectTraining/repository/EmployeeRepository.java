@@ -13,11 +13,8 @@ import java.util.Set;
 public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Integer> {
     Set<EmployeeEntity> findAllByFullNameContains(String name);
 
-    @Query(value =
-            "SELECT e.no,e.full_name,e.age,e.is_male,e.money_per_hour,e.address,e.phone,e.start_day,e.team_id from employee e where e.full_name ilike '%:name%'", nativeQuery = true)
     Page<EmployeeEntity> findByFullNameContainingIgnoreCase(@Param("name") String name, Pageable of);
-    @Query(value =
-            "SELECT e.no,e.full_name,e.age,e.is_male,e.money_per_hour,e.address,e.phone,e.start_day,e.team_id from employee e where e.team_id = :team_id", nativeQuery = true)
+
     Page<EmployeeEntity> findAllByTeam(@Param("team_id") Integer teamID, Pageable of);
 
 
