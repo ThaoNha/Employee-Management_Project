@@ -15,7 +15,7 @@ import java.util.Date;
 public class AdvanceDTO {
     private int no;
     @PastOrPresent(message = "Date is Past or Present today")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "MM-dd-yyyy")
     private Date date;
     @Positive(message = "Money is greater than 0")
     private int money;
