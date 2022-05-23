@@ -15,7 +15,6 @@ import java.util.Date;
 public class WorkingDTO {
     private int no;
     @PastOrPresent(message = "Date is Past or Present today")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
     @Positive(message = "Hour is greater than 0")
     private int hour;
