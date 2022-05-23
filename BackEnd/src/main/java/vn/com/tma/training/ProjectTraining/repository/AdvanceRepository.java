@@ -15,7 +15,7 @@ public interface AdvanceRepository extends CrudRepository<AdvanceEntity, Integer
 
     Page<AdvanceEntity> findAllByEmployee(EmployeeEntity entity, Pageable of);
 
-    @Query(value = "select a.* from advance a where employee_id=:id and a.date between :startDate and :endDate", nativeQuery = true)
+    @Query(value = "select a.* from advance a where employee_no=:id and a.date between :startDate and :endDate", nativeQuery = true)
     List<AdvanceEntity> findAllByEmployeeNoAndMonth(@Param("id") Integer id, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     Iterable<AdvanceEntity> findAllByEmployeeNo(Integer id);
