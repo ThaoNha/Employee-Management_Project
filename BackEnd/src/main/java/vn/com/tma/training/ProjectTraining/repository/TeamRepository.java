@@ -16,5 +16,4 @@ public interface TeamRepository extends CrudRepository<TeamEntity, Integer> {
 
     Page<TeamEntity> findAll(Pageable of);
 
-
 }

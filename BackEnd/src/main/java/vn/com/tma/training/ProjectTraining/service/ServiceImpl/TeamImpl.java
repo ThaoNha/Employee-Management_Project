@@ -27,7 +27,11 @@ public class TeamImpl implements TeamService {
         Page<TeamEntity> pageTeam = teamRepository.findAll(PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageTeam.map(team -> mapper.toDTO(team));
     }
-
+    @Override
+    public TeamDTO findById(Integer id) {
+        TeamEntity entity = teamRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
+        return mapper.toDTO(entity);
+    }
     @Override
     public Page<TeamDTO> findTeamByName(String name, Integer page) {
         Page<TeamEntity> pageTeam = teamRepository.findByTeamName(name, PageRequest.of(page - 1, 5, Sort.by("no")));
@@ -66,4 +70,6 @@ public class TeamImpl implements TeamService {
         return dtos;
 
     }
+
+
 }

@@ -28,6 +28,16 @@ public class TeamController {
         }
 
     }
+
+    @GetMapping("/find-by-id/{id}")
+    public ResponseEntity<?> findByID(@PathVariable Integer id){
+        try {
+            return ResponseEntity.ok(teamService.findById(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+        }
+    }
+
     @GetMapping("/get-all")
     public ResponseEntity<?> listTeam() {
 

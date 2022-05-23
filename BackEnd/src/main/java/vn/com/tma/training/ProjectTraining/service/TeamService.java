@@ -17,4 +17,6 @@ public interface TeamService {
     void delete(Integer id);
 
    List<TeamDTO> listTeam();
+
+    TeamDTO findById(Integer id);
 }
