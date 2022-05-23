@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class WorkingDTO {
-    private int id;
+    private int no;
     @PastOrPresent(message = "Date is Past or Present today")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;

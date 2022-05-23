@@ -15,7 +15,7 @@ public class WorkingMapper {
 
     public WorkingDTO toDTO(WorkingEntity entity) {
         WorkingDTO workingDTO = new WorkingDTO();
-        workingDTO.setId(entity.getId());
+        workingDTO.setNo(entity.getNo());
         workingDTO.setDate(entity.getDate());
         workingDTO.setHour(entity.getHour());
         workingDTO.setEmployee_id(entity.getEmployee().getNo());
@@ -24,7 +24,7 @@ public class WorkingMapper {
 
     public WorkingEntity toEntity(WorkingDTO dto, EmployeeEntity employeeEntity) {
         WorkingEntity workingEntity = new WorkingEntity();
-        workingEntity.setId(dto.getId());
+        workingEntity.setNo(dto.getNo());
         workingEntity.setDate(dto.getDate());
         workingEntity.setHour(dto.getHour());
         workingEntity.setEmployee(employeeEntity);

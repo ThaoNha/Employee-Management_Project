@@ -34,8 +34,8 @@ public class WorkingImpl implements WorkingService {
 
     @Override
     public Page<WorkingDTO> listWorking(Integer id, Integer page) {
-
-        Page<WorkingEntity> pageWorking = workingRepository.findAllByEmployeeNo(id, PageRequest.of(page - 1, 5, Sort.by("no")));
+        EmployeeEntity entity=employeeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Employee is not found!"));
+        Page<WorkingEntity> pageWorking = workingRepository.findAllByEmployee(entity, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageWorking.map(workingEntity -> workingMapper.toDTO(workingEntity));
     }
 

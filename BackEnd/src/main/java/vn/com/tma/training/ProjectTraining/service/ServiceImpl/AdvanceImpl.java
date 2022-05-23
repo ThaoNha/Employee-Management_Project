@@ -30,7 +30,8 @@ public class AdvanceImpl implements AdvanceService {
 
     @Override
     public Page<AdvanceDTO> listAdvance(Integer id, Integer page) {
-        Page<AdvanceEntity> pageAdvance = advanceRepository.findAllByEmployeeNo(id, PageRequest.of(page - 1, 5, Sort.by("no")));
+        EmployeeEntity entity=employeeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Employee is not found!"));
+        Page<AdvanceEntity> pageAdvance = advanceRepository.findAllByEmployee(entity, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageAdvance.map(advanceEntity -> advanceMapper.toDTO(advanceEntity));
     }
 

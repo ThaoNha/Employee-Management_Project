@@ -8,7 +8,7 @@ import vn.com.tma.training.ProjectTraining.entity.entityDeleted.WorkingDeletedEn
 public class TransferWorking {
     public WorkingDeletedEntity entityToDeleted(WorkingEntity entity) {
         WorkingDeletedEntity deletedEntity = new WorkingDeletedEntity();
-        deletedEntity.setId(entity.getId());
+        deletedEntity.setId(entity.getNo());
         deletedEntity.setDate(entity.getDate());
         deletedEntity.setHour(entity.getHour());
         deletedEntity.setEmployeeID(entity.getEmployee().getNo());
