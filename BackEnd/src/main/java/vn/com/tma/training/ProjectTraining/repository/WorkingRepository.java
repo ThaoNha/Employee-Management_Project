@@ -21,4 +21,6 @@ public interface WorkingRepository extends CrudRepository<WorkingEntity, Integer
     List<WorkingEntity> findAllByEmployeeNoAndMonth(@Param("id") Integer id, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     boolean existsByEmployeeNoAndDate(int employee_id, Date date);
+
+    List<WorkingEntity> findAllByEmployee(EmployeeEntity entity);
 }

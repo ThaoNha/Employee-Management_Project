@@ -19,4 +19,6 @@ public interface AdvanceRepository extends CrudRepository<AdvanceEntity, Integer
     List<AdvanceEntity> findAllByEmployeeNoAndMonth(@Param("id") Integer id, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     Iterable<AdvanceEntity> findAllByEmployeeNo(Integer id);
+
+    List<AdvanceEntity> findAllByEmployee(EmployeeEntity entity);
 }

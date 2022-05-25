@@ -16,8 +16,8 @@ import vn.com.tma.training.ProjectTraining.repository.WorkingRepository;
 import vn.com.tma.training.ProjectTraining.repository.deleted.WorkingDeletedRepository;
 import vn.com.tma.training.ProjectTraining.service.WorkingService;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class WorkingImpl implements WorkingService {
@@ -38,7 +38,14 @@ public class WorkingImpl implements WorkingService {
         Page<WorkingEntity> pageWorking = workingRepository.findAllByEmployee(entity, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageWorking.map(workingEntity -> workingMapper.toDTO(workingEntity));
     }
-
+    @Override
+    public List<WorkingDTO> getAll(Integer employee_id) {
+        EmployeeEntity entity=employeeRepository.findById(employee_id).orElseThrow(()->new IllegalArgumentException("Employee is not found!"));
+        List<WorkingEntity> pageWorking = workingRepository.findAllByEmployee(entity);
+        List<WorkingDTO> dtos=new ArrayList<>();
+        pageWorking.forEach(working->dtos.add(workingMapper.toDTO(working)));
+        return dtos;
+    }
     @SneakyThrows
     @Override
     public WorkingDTO addWorking(WorkingDTO workingDTO) {
@@ -57,6 +64,8 @@ public class WorkingImpl implements WorkingService {
         workingRepository.delete(entity);
 
     }
+
+
 
 
 }

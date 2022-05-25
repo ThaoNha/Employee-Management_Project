@@ -15,6 +15,9 @@ import vn.com.tma.training.ProjectTraining.repository.EmployeeRepository;
 import vn.com.tma.training.ProjectTraining.repository.deleted.AdvanceDeletedRepository;
 import vn.com.tma.training.ProjectTraining.service.AdvanceService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class AdvanceImpl implements AdvanceService {
     @Autowired
@@ -36,6 +39,14 @@ public class AdvanceImpl implements AdvanceService {
     }
 
     @Override
+    public List<AdvanceDTO> getAll(Integer employee_id) {
+        EmployeeEntity entity=employeeRepository.findById(employee_id).orElseThrow(()->new IllegalArgumentException("Employee is not found!"));
+        List<AdvanceEntity> pageAdvance = advanceRepository.findAllByEmployee(entity);
+        List<AdvanceDTO> dtos=new ArrayList<>();
+        pageAdvance.forEach(advance->dtos.add(advanceMapper.toDTO(advance)));
+        return dtos;
+    }
+    @Override
     public AdvanceDTO addAdvance(AdvanceDTO advanceDTO) {
         EmployeeEntity employeeEntity = employeeRepository.findById(advanceDTO.getEmployee_id()).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
         AdvanceEntity entity = advanceMapper.toEntity(advanceDTO, employeeEntity);
@@ -49,6 +60,8 @@ public class AdvanceImpl implements AdvanceService {
         advanceRepository.delete(entity);
 
     }
+
+   
 
 
 }
