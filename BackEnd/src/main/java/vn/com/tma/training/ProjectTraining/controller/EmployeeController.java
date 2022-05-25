@@ -39,12 +39,22 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/find-by-name")
+    @GetMapping("/find-page-by-name")
     public ResponseEntity<?> findByName(@RequestParam String name, @RequestParam(required = false, defaultValue = "1") Integer page) {
         if (page == 0)
             ResponseEntity.badRequest().body("Page must be greater than 0!");
         try {
             return ResponseEntity.ok(employeeService.findByName(name, page));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+        }
+
+    }
+    @GetMapping("/find-by-name")
+    public ResponseEntity<?> findByName(@RequestParam String name) {
+
+        try {
+            return ResponseEntity.ok(employeeService.findByName(name));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
@@ -61,12 +71,21 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/find-by-team/{team_id}")
+    @GetMapping("/find-page-by-team/{team_id}")
     public ResponseEntity<?> listEmployeeByTeam(@PathVariable Integer team_id, @RequestParam(required = false, defaultValue = "1") Integer page) {
         if (page == 0)
             ResponseEntity.badRequest().body("Page must be greater than 0!");
         try {
             return ResponseEntity.ok(employeeService.listEmployeeByTeam(team_id, page));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+
+        }
+    }
+    @GetMapping("/find-by-team/{team_id}")
+    public ResponseEntity<?> listEmployeeByTeam(@PathVariable Integer team_id) {
+        try {
+            return ResponseEntity.ok(employeeService.listEmployeeByTeam(team_id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
 

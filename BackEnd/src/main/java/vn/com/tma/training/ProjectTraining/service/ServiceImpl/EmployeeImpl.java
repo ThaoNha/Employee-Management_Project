@@ -22,6 +22,7 @@ import vn.com.tma.training.ProjectTraining.repository.deleted.WorkingDeletedRepo
 import vn.com.tma.training.ProjectTraining.repository.updated.EmployeeUpdatedRepository;
 import vn.com.tma.training.ProjectTraining.service.EmployeeService;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,6 +55,7 @@ public class EmployeeImpl implements EmployeeService {
     private AdvanceRepository advanceRepository;
     @Autowired
     private ImageRepository imageRepository;
+
     @Override
     public Set<EmployeeDTO> listEmployee() {
         Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
@@ -70,6 +72,7 @@ public class EmployeeImpl implements EmployeeService {
         return page.map(entity -> mapper.toDTO(entity));
     }
 
+
     @Override
     public Page<EmployeeDTO> listEmployeeByTeam(Integer teamID, Integer page) {
         TeamEntity entity = teamRep.findById(teamID).orElseThrow(() -> new IllegalArgumentException("Team_id: " + teamID + " is not found!"));
@@ -78,6 +81,15 @@ public class EmployeeImpl implements EmployeeService {
         return pageEmployee.map(employeeEntity -> mapper.toDTO(employeeEntity));
     }
 
+    @Override
+    public List<EmployeeDTO> listEmployeeByTeam(Integer team_id) {
+        TeamEntity teamEntity = teamRep.findById(team_id).orElseThrow(() -> new IllegalArgumentException("Team_id: " + team_id + " is not found!"));
+
+        List<EmployeeEntity> pageEmployee = employeeRep.findAllByTeam(teamEntity);
+        List<EmployeeDTO> dtos = new ArrayList<>();
+        pageEmployee.forEach(entity -> dtos.add(mapper.toDTO(entity)));
+        return dtos;
+    }
 
     @Override
     public EmployeeDTO findEmployee(Integer id) {
@@ -93,10 +105,19 @@ public class EmployeeImpl implements EmployeeService {
     }
 
     @Override
+    public List<EmployeeDTO> findByName(String name) {
+        List<EmployeeEntity> pageEmployee = employeeRep.findByFullNameContainingIgnoreCase(name);
+        List<EmployeeDTO> dtos = new ArrayList<>();
+        pageEmployee.forEach(entity -> dtos.add(mapper.toDTO(entity)));
+        return dtos;
+    }
+
+
+    @Override
     public EmployeeDTO newEmployee(EmployeeDTO employeeDTO) {
         TeamEntity teamEntity = teamRep.findById(employeeDTO.getTeamID()).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
         EmployeeEntity entity = employeeRep.save(mapper.toEntity(employeeDTO, teamEntity));
-        ImageEntity imageEntity=new ImageEntity();
+        ImageEntity imageEntity = new ImageEntity();
         imageEntity.setEmployee(entity);
         imageRepository.save(imageEntity);
         return mapper.toDTO(entity);
@@ -126,7 +147,7 @@ public class EmployeeImpl implements EmployeeService {
     @Override
     public void deleteEmployee(Integer id) {
         EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee_id: " + id + " is not found!"));
-        ImageEntity imageEntity=imageRepository.findByEmployee(entity);
+        ImageEntity imageEntity = imageRepository.findByEmployee(entity);
         EmployeeDeletedEntity deletedEntity = transferEmployee.entityToDeleted(entity);
         Iterable<WorkingEntity> workingEntitySet = workingRepository.findAllByEmployeeNo(id);
         Iterable<AdvanceEntity> advanceEntitySet = advanceRepository.findAllByEmployeeNo(id);
@@ -164,9 +185,6 @@ public class EmployeeImpl implements EmployeeService {
         }
         return result.toString().toString();
     }
-
-
-
 
 
 }
