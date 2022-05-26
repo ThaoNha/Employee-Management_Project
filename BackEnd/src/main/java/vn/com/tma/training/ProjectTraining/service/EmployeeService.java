@@ -25,4 +25,8 @@ public interface EmployeeService {
 
 
     Page<EmployeeDTO> getPage(Integer pageIndex);
+
+    List<EmployeeDTO> findByName(String name);
+
+    List<EmployeeDTO> listEmployeeByTeam(Integer team_id);
 }

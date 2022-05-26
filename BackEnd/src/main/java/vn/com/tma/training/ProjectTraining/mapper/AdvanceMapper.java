@@ -14,7 +14,7 @@ public class AdvanceMapper {
 
     public AdvanceDTO toDTO(AdvanceEntity entity) {
         AdvanceDTO advanceDTO = new AdvanceDTO();
-        advanceDTO.setId(entity.getId());
+        advanceDTO.setNo(entity.getNo());
         advanceDTO.setDate(entity.getDate());
         advanceDTO.setMoney(entity.getMoney());
         advanceDTO.setEmployee_id(entity.getEmployee().getNo());
@@ -23,7 +23,7 @@ public class AdvanceMapper {
 
     public AdvanceEntity toEntity(AdvanceDTO dto, EmployeeEntity employeeEntity) {
         AdvanceEntity advanceEntity = new AdvanceEntity();
-        advanceEntity.setId(dto.getId());
+        advanceEntity.setNo(dto.getNo());
         advanceEntity.setDate(dto.getDate());
         advanceEntity.setMoney(dto.getMoney());
         advanceEntity.setEmployee(employeeEntity);

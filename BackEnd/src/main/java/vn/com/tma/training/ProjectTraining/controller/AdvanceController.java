@@ -16,7 +16,7 @@ public class AdvanceController {
     @Autowired
     private AdvanceService advanceService;
 
-    @GetMapping("/get-all/{employee_id}")
+    @GetMapping("/get-page/{employee_id}")
     public ResponseEntity<?> listAdvance(@PathVariable Integer employee_id, @RequestParam(required = false, defaultValue = "1") Integer page) {
         if (page == 0)
             ResponseEntity.badRequest().body("Page must be greater than 0!");
@@ -27,7 +27,16 @@ public class AdvanceController {
 
         }
     }
+    @GetMapping("/get-all/{employee_id}")
+    public ResponseEntity<?> listWorking(@PathVariable Integer employee_id) {
 
+        try {
+            return ResponseEntity.ok(advanceService.getAll(employee_id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+
+        }
+    }
     @PostMapping("/create")
     public ResponseEntity<?> addAdvance(@RequestBody @Valid AdvanceDTO advanceDTO) {
         try {

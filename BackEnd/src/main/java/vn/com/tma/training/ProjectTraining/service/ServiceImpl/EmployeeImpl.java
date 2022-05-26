@@ -3,12 +3,10 @@ package vn.com.tma.training.ProjectTraining.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.EmployeeDTO;
-import vn.com.tma.training.ProjectTraining.entity.AdvanceEntity;
-import vn.com.tma.training.ProjectTraining.entity.EmployeeEntity;
-import vn.com.tma.training.ProjectTraining.entity.TeamEntity;
-import vn.com.tma.training.ProjectTraining.entity.WorkingEntity;
+import vn.com.tma.training.ProjectTraining.entity.*;
 import vn.com.tma.training.ProjectTraining.entity.entityDeleted.AdvanceDeletedEntity;
 import vn.com.tma.training.ProjectTraining.entity.entityDeleted.EmployeeDeletedEntity;
 import vn.com.tma.training.ProjectTraining.entity.entityDeleted.WorkingDeletedEntity;
@@ -17,16 +15,14 @@ import vn.com.tma.training.ProjectTraining.mapper.EmployeeMapper;
 import vn.com.tma.training.ProjectTraining.mapper.TransferAdvance;
 import vn.com.tma.training.ProjectTraining.mapper.TransferEmployee;
 import vn.com.tma.training.ProjectTraining.mapper.TransferWorking;
-import vn.com.tma.training.ProjectTraining.repository.AdvanceRepository;
-import vn.com.tma.training.ProjectTraining.repository.EmployeeRepository;
-import vn.com.tma.training.ProjectTraining.repository.TeamRepository;
-import vn.com.tma.training.ProjectTraining.repository.WorkingRepository;
+import vn.com.tma.training.ProjectTraining.repository.*;
 import vn.com.tma.training.ProjectTraining.repository.deleted.AdvanceDeletedRepository;
 import vn.com.tma.training.ProjectTraining.repository.deleted.EmployeeDeletedRepository;
 import vn.com.tma.training.ProjectTraining.repository.deleted.WorkingDeletedRepository;
 import vn.com.tma.training.ProjectTraining.repository.updated.EmployeeUpdatedRepository;
 import vn.com.tma.training.ProjectTraining.service.EmployeeService;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,6 +53,8 @@ public class EmployeeImpl implements EmployeeService {
     private AdvanceDeletedRepository advanceDeletedRepository;
     @Autowired
     private AdvanceRepository advanceRepository;
+    @Autowired
+    private ImageRepository imageRepository;
 
     @Override
     public Set<EmployeeDTO> listEmployee() {
@@ -70,18 +68,28 @@ public class EmployeeImpl implements EmployeeService {
 
     @Override
     public Page<EmployeeDTO> getPage(Integer pageIndex) {
-        Page<EmployeeEntity> page = employeeRep.findAllWithPageIndex(PageRequest.of(pageIndex, 5));
+        Page<EmployeeEntity> page = employeeRep.findAll(PageRequest.of(pageIndex, 5, Sort.by("no")));
         return page.map(entity -> mapper.toDTO(entity));
     }
+
 
     @Override
     public Page<EmployeeDTO> listEmployeeByTeam(Integer teamID, Integer page) {
         TeamEntity entity = teamRep.findById(teamID).orElseThrow(() -> new IllegalArgumentException("Team_id: " + teamID + " is not found!"));
 
-        Page<EmployeeEntity> pageEmployee = employeeRep.findAllByTeam(entity, PageRequest.of(page - 1, 5));
+        Page<EmployeeEntity> pageEmployee = employeeRep.findAllByTeam(entity, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageEmployee.map(employeeEntity -> mapper.toDTO(employeeEntity));
     }
 
+    @Override
+    public List<EmployeeDTO> listEmployeeByTeam(Integer team_id) {
+        TeamEntity teamEntity = teamRep.findById(team_id).orElseThrow(() -> new IllegalArgumentException("Team_id: " + team_id + " is not found!"));
+
+        List<EmployeeEntity> pageEmployee = employeeRep.findAllByTeam(teamEntity);
+        List<EmployeeDTO> dtos = new ArrayList<>();
+        pageEmployee.forEach(entity -> dtos.add(mapper.toDTO(entity)));
+        return dtos;
+    }
 
     @Override
     public EmployeeDTO findEmployee(Integer id) {
@@ -92,14 +100,26 @@ public class EmployeeImpl implements EmployeeService {
 
     @Override
     public Page<EmployeeDTO> findByName(String name, Integer page) {
-        Page<EmployeeEntity> pageEmployee = employeeRep.findByName(name, PageRequest.of(page - 1, 5));
+        Page<EmployeeEntity> pageEmployee = employeeRep.findByFullNameContainingIgnoreCase(name, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageEmployee.map(employeeEntity -> mapper.toDTO(employeeEntity));
     }
+
+    @Override
+    public List<EmployeeDTO> findByName(String name) {
+        List<EmployeeEntity> pageEmployee = employeeRep.findByFullNameContainingIgnoreCase(name);
+        List<EmployeeDTO> dtos = new ArrayList<>();
+        pageEmployee.forEach(entity -> dtos.add(mapper.toDTO(entity)));
+        return dtos;
+    }
+
 
     @Override
     public EmployeeDTO newEmployee(EmployeeDTO employeeDTO) {
         TeamEntity teamEntity = teamRep.findById(employeeDTO.getTeamID()).orElseThrow(() -> new IllegalArgumentException("Team is not found!"));
         EmployeeEntity entity = employeeRep.save(mapper.toEntity(employeeDTO, teamEntity));
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setEmployee(entity);
+        imageRepository.save(imageEntity);
         return mapper.toDTO(entity);
     }
 
@@ -116,6 +136,7 @@ public class EmployeeImpl implements EmployeeService {
         entity.setAddress(employeeDTO.getAddress());
         entity.setMoneyPerHour(employeeDTO.getMoneyPerHour());
         entity.setMale(employeeDTO.isMale());
+        entity.setAddress(employeeDTO.getAddress());
 
 
         employeeUpdatedRepository.save(updatedEntity);
@@ -126,6 +147,7 @@ public class EmployeeImpl implements EmployeeService {
     @Override
     public void deleteEmployee(Integer id) {
         EmployeeEntity entity = employeeRep.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee_id: " + id + " is not found!"));
+        ImageEntity imageEntity = imageRepository.findByEmployee(entity);
         EmployeeDeletedEntity deletedEntity = transferEmployee.entityToDeleted(entity);
         Iterable<WorkingEntity> workingEntitySet = workingRepository.findAllByEmployeeNo(id);
         Iterable<AdvanceEntity> advanceEntitySet = advanceRepository.findAllByEmployeeNo(id);
@@ -140,6 +162,7 @@ public class EmployeeImpl implements EmployeeService {
                 advanceDeletedRepository.save(advanceDeletedEntity);
                 advanceRepository.delete(advanceEntity);
             });
+            imageRepository.delete(imageEntity);
             employeeDeletedRepository.save(deletedEntity);
             employeeRep.delete(entity);
 
@@ -162,9 +185,6 @@ public class EmployeeImpl implements EmployeeService {
         }
         return result.toString().toString();
     }
-
-
-
 
 
 }

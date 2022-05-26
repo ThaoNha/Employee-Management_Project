@@ -3,6 +3,7 @@ package vn.com.tma.training.ProjectTraining.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import vn.com.tma.training.ProjectTraining.dto.AdvanceDTO;
 import vn.com.tma.training.ProjectTraining.entity.AdvanceEntity;
@@ -13,6 +14,9 @@ import vn.com.tma.training.ProjectTraining.repository.AdvanceRepository;
 import vn.com.tma.training.ProjectTraining.repository.EmployeeRepository;
 import vn.com.tma.training.ProjectTraining.repository.deleted.AdvanceDeletedRepository;
 import vn.com.tma.training.ProjectTraining.service.AdvanceService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AdvanceImpl implements AdvanceService {
@@ -29,10 +33,19 @@ public class AdvanceImpl implements AdvanceService {
 
     @Override
     public Page<AdvanceDTO> listAdvance(Integer id, Integer page) {
-        Page<AdvanceEntity> pageAdvance = advanceRepository.findAllByEmployeeNo(id, PageRequest.of(page - 1, 5));
+        EmployeeEntity entity=employeeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Employee is not found!"));
+        Page<AdvanceEntity> pageAdvance = advanceRepository.findAllByEmployee(entity, PageRequest.of(page - 1, 5, Sort.by("no")));
         return pageAdvance.map(advanceEntity -> advanceMapper.toDTO(advanceEntity));
     }
 
+    @Override
+    public List<AdvanceDTO> getAll(Integer employee_id) {
+        EmployeeEntity entity=employeeRepository.findById(employee_id).orElseThrow(()->new IllegalArgumentException("Employee is not found!"));
+        List<AdvanceEntity> pageAdvance = advanceRepository.findAllByEmployee(entity);
+        List<AdvanceDTO> dtos=new ArrayList<>();
+        pageAdvance.forEach(advance->dtos.add(advanceMapper.toDTO(advance)));
+        return dtos;
+    }
     @Override
     public AdvanceDTO addAdvance(AdvanceDTO advanceDTO) {
         EmployeeEntity employeeEntity = employeeRepository.findById(advanceDTO.getEmployee_id()).orElseThrow(() -> new IllegalArgumentException("Employee is not found!"));
@@ -47,6 +60,8 @@ public class AdvanceImpl implements AdvanceService {
         advanceRepository.delete(entity);
 
     }
+
+   
 
 
 }

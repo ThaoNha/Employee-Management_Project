@@ -13,12 +13,12 @@ import java.util.Date;
 public class AdvanceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int no;
     @Temporal(TemporalType.DATE)
     private Date date;
     private int money;
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_no")
     private EmployeeEntity employee;
 
 }

@@ -3,6 +3,7 @@ package vn.com.tma.training.ProjectTraining.service;
 import org.springframework.data.domain.Page;
 import vn.com.tma.training.ProjectTraining.dto.AdvanceDTO;
 
+import java.util.List;
 import java.util.Set;
 
 public interface AdvanceService {
@@ -12,4 +13,5 @@ public interface AdvanceService {
 
     void deleteAdvance(Integer id);
 
+    List<AdvanceDTO> getAll(Integer employee_id);
 }
