@@ -40,8 +40,14 @@ public class TeamImpl implements TeamService {
 
     @Override
     public TeamDTO addTeam(TeamDTO teamDTO) {
-        TeamEntity teamEntity = teamRepository.save(mapper.toEntity(teamDTO));
-        return mapper.toDTO(teamEntity);
+        List<TeamEntity> name=teamRepository.findByName(teamDTO.getName().trim());
+        if(!(name.size() >0)){
+            TeamEntity teamEntity = teamRepository.save(mapper.toEntity(teamDTO));
+            return mapper.toDTO(teamEntity);
+        }else{
+            throw new IllegalArgumentException("Name Team used! ");
+        }
+
     }
 
     @Override
