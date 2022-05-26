@@ -42,6 +42,7 @@ public class TeamImpl implements TeamService {
     public TeamDTO addTeam(TeamDTO teamDTO) {
         List<TeamEntity> name=teamRepository.findByName(teamDTO.getName().trim());
         if(!(name.size() >0)){
+            teamDTO.setName(teamDTO.getName().trim());
             TeamEntity teamEntity = teamRepository.save(mapper.toEntity(teamDTO));
             return mapper.toDTO(teamEntity);
         }else{
